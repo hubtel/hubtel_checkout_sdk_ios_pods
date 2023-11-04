@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'hubtel_merchant_checkout_sdk_Example' do
+  pod 'hubtel_merchant_checkout_sdk', :path => '../'
+
+  target 'hubtel_merchant_checkout_sdk_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
