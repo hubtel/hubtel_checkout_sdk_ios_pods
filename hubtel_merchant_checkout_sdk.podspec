@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '12.0'
   s.swift_version = '5.0'
-  s.source_files = ['TableCells/*.swift','Resources/*', 'Networking/*', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
+  s.source_files = ['TableCells/*.swift','Resources/*', 'Networking/*','Assets.xcassets', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
  
   s.resource_bundles = {
     'hubtel_merchant_checkout_sdk' => ['Assets.xcassets', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']

@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		02DA3A461ECB4267BAF648289198F397 /* MyCustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D48A93EC4B5B1291594744189AFCDE /* MyCustomLabel.swift */; };
-		03A7542A2AF7EC9A008E0289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D96445DB7941DF7819305CD47B255984 /* Assets.xcassets */; };
+		03A7542E2AF807AE008E0289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03A7542D2AF807AE008E0289 /* Assets.xcassets */; };
 		05427A09D54738B1D6F5786C3660A622 /* SuccessOverLayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF86159BBF480A8CB62D04E4DA4DB099 /* SuccessOverLayView.swift */; };
 		08CFDC9DB0D3692D9D7BBF50D087CDAD /* AddMobileWalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2542D9E2CB5C21B45B2F7CDCC002091 /* AddMobileWalletViewModel.swift */; };
 		0980DEE356E67BB71D94C71351C5494C /* NameAndTitleStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D304DE6392D3C7B2E18A123F276BA1E /* NameAndTitleStack.swift */; };
 		0CF7C2B699F222C98A796F40BF4F8471 /* WalletsTabHolderStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CF5BF564BF8FBFD220288BE0FF09C7 /* WalletsTabHolderStack.swift */; };
-		116FA2644CDA5AF6CEEA91FE64DA7420 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D96445DB7941DF7819305CD47B255984 /* Assets.xcassets */; };
 		1180C40771726C5BB6924A1B3873F846 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ECC0EEE8E929CA1DDAE7BE3294B9B5 /* Analytics.swift */; };
 		11AA0D26CAE9B9912B0A0939CAD77FAF /* hubtel_merchant_checkout_sdk-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 88714CC1ED4A93D130748B1863FFC106 /* hubtel_merchant_checkout_sdk-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1255961924EAFC61CF2761FB3F386FA9 /* ReceiptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635EC92F981C7F4B6C6447768562114 /* ReceiptTableViewCell.swift */; };
@@ -116,6 +115,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03A7542D2AF807AE008E0289 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		054B5BFE122622423E6B2B71C59D2C4B /* GovernmentVerificationViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GovernmentVerificationViewController.swift; sourceTree = "<group>"; };
 		06BB9A04C9592382F923F14B354B1B65 /* ProviderInfoIntakeTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProviderInfoIntakeTableViewCell.swift; sourceTree = "<group>"; };
 		075652C9118E20AF35B42E826C1F3315 /* hubtel_merchant_checkout_sdk-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "hubtel_merchant_checkout_sdk-dummy.m"; sourceTree = "<group>"; };
@@ -209,7 +209,6 @@
 		C925DC0C2D986792AD095963174365F2 /* Tags.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		CCEAD82C2F007C7E8A838AFC146EE1D5 /* Strings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		D818EC54BF621BB4B62C4F17F84DDEB4 /* CheckoutWebViewViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckoutWebViewViewModel.swift; sourceTree = "<group>"; };
-		D96445DB7941DF7819305CD47B255984 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9F4EEB2CCA333EAF5EB1871AEA75827 /* NunitoSans-Regular.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "NunitoSans-Regular.ttf"; sourceTree = "<group>"; };
 		E0821AF799F9D1978CCEC9FF01656AF1 /* NetworkManger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkManger.swift; sourceTree = "<group>"; };
 		E5107AC5BD768847C80676FBDC9D9145 /* Colors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -423,7 +422,6 @@
 		7FACE55A17EA70F5E79FAA64B919BD3C /* hubtel_merchant_checkout_sdk */ = {
 			isa = PBXGroup;
 			children = (
-				D96445DB7941DF7819305CD47B255984 /* Assets.xcassets */,
 				B1044F49B6A7A044AAECDFEADD4CBD63 /* Analytics */,
 				1143119A4DED50F753B1C6465174F3F3 /* CustomViews */,
 				76BF3612B40AC0927A8D65BB76CB8619 /* General */,
@@ -433,6 +431,7 @@
 				59DE8BAEA6C42889468127215E04190E /* Resources */,
 				69BFD5F1FF878C412A761BCF78BDEDE9 /* Support Files */,
 				50568C965806E8AF3D726C10B7ADE2E3 /* TableCells */,
+				03A7542D2AF807AE008E0289 /* Assets.xcassets */,
 			);
 			name = hubtel_merchant_checkout_sdk;
 			path = ../..;
@@ -728,7 +727,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03A7542A2AF7EC9A008E0289 /* Assets.xcassets in Resources */,
+				03A7542E2AF807AE008E0289 /* Assets.xcassets in Resources */,
 				70BF4C38E307A250A934A9A4CE7A1D5D /* hubtel_merchant_checkout_sdk-hubtel_merchant_checkout_sdk in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,7 +750,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				116FA2644CDA5AF6CEEA91FE64DA7420 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
