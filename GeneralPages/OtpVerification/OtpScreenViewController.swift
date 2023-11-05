@@ -169,8 +169,8 @@ class OtpScreenViewController: UIViewController {
     }
     
     func subscribeToShowKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -180,7 +180,7 @@ class OtpScreenViewController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo = notification.userInfo
-        let keyboardSize = userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let keyboardSize = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         let keyboardHeight = keyboardSize.cgRectValue.height
         print(UIScreen.main.bounds.height)
         switch UIScreen.main.bounds.height{

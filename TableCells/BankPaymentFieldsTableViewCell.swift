@@ -245,7 +245,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
         //        let myData = UserDefaults.standard.decodeTheData<bankDetails>(forKey: "myCard")
         if let myBankDetails = UserDefaults.standard.object(forKey: Strings.myCard) as? Data{
             let myUnarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: BankDetails.self, from: myBankDetails)
-            savedCardLabel.text = "Card ending with **** \((myUnarchivedData??.cardHolderNumber ?? "").suffix(4))"
+            savedCardLabel.text = "Card ending with **** \((myUnarchivedData?.cardHolderNumber ?? "").suffix(4))"
             
         }
         

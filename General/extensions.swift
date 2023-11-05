@@ -33,7 +33,7 @@ extension UIViewController{
     func showNetworkCallProgress(isCancellable:Bool = true, cancelCallback:(()->Void)? = nil) -> UIAlertController {
         let indicatorView: UIActivityIndicatorView
         if #available(iOS 13.0, *) {
-             indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .large)
+            indicatorView = UIActivityIndicatorView(style: .large)
         } else {
             // Fallback on earlier versions
             indicatorView = UIActivityIndicatorView()

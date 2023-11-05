@@ -29,8 +29,9 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
-
+  s.swift_version = '5.0'
   s.source_files = ['TableCells/*.swift','Resources/*', 'Assets/*', 'Networking/*', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
+ 
 #  s.resource_bundles = {
 #    'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
 #  }

@@ -143,11 +143,11 @@ public class CheckoutViewController: UIViewController {
         setupConstraints()
         NotificationCenter.default.addObserver(
             self, selector: #selector(handleKeyboardNotification),
-            name: NSNotification.Name.UIKeyboardWillShow, object: nil
+            name: UIResponder.keyboardWillShowNotification, object: nil
         )
         NotificationCenter.default.addObserver(
             self, selector: #selector(handleKeyboardNotification),
-            name: NSNotification.Name.UIKeyboardWillHide, object: nil
+            name: UIResponder.keyboardWillHideNotification, object: nil
         )
        
         
@@ -206,8 +206,8 @@ public class CheckoutViewController: UIViewController {
 //    }
     @objc func handleKeyboardNotification(_ notification: Notification) {
         if let userInfo = notification.userInfo {
-            let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-            let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+            let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
             if isKeyboardShowing {
                 bottomConstraint?.constant =  -keyboardFrame!.height
                 self.view.layoutIfNeeded()
