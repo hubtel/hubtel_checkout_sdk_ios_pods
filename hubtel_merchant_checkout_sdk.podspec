@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'hubtel_merchant_checkout_sdk'
-  s.version          = '0.1.6'
-  s.summary          = 'A short description of hubtel_merchant_checkout_sdk.'
+  s.version          = '0.1.7'
+  s.summary          = 'The Hubtel Checkout Library is a convenient and easy-to-use library that simplifies the process of implementing a checkout flow in your iOS application.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -22,7 +22,7 @@ TODO: Add long description of the pod here.
                        DESC
 
   s.homepage         = 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+   s.screenshots     = 'https://firebasestorage.googleapis.com/v0/b/newagent-b6906.appspot.com/o/hubtel-mobile-checkout-ios-sdk-image.png?alt=media&token=376d90ab-c416-42a0-8b99-69028378ff72'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { '85908865' => 'markamoah97@gmail.com' }
   s.source           = { :git => 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git', :tag => s.version.to_s }
