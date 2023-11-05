@@ -1,5 +1,5 @@
 PODS:
-  - hubtel_merchant_checkout_sdk (0.1.3)
+  - hubtel_merchant_checkout_sdk (0.1.5)
 
 DEPENDENCIES:
   - hubtel_merchant_checkout_sdk (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  hubtel_merchant_checkout_sdk: e538dfe3a3b88bb7eca41e2b6318a23b44f79ba5
+  hubtel_merchant_checkout_sdk: 825ae1fa05d1fcf7d40449605812c79ec740f511
 
 PODFILE CHECKSUM: 36a09141af65443e7ef57102ebce35638c5912dd
 

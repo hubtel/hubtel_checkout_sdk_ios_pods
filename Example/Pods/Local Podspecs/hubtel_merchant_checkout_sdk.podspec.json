@@ -1,6 +1,6 @@
 {
   "name": "hubtel_merchant_checkout_sdk",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "summary": "A short description of hubtel_merchant_checkout_sdk.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git",
-    "tag": "0.1.3"
+    "tag": "0.1.5"
   },
   "platforms": {
     "ios": "12.0"
@@ -31,7 +31,7 @@
   ],
   "resource_bundles": {
     "hubtel_merchant_checkout_sdk": [
-      "Assets/Media.xcassets",
+      "Assets.xcassets",
       "hubtel_merchant_checkout_sdk/Resources/*.ttf"
     ]
   },
