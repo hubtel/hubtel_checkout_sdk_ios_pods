@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		519041B87CD84DDCC9FB2D09 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5A223D6CFB0DCFC190344A /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */; };
+		548FF4A9009FD63E40F80A53 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2292A44EFAB1503DFF58F85 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		A8B1129E179AD50A68C9B6C2 /* Pods_hubtel_merchant_checkout_sdk_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D57150B6C1B48A70F51E94A /* Pods_hubtel_merchant_checkout_sdk_Example.framework */; };
+		BAF407BB9BADBA912BD4623C /* Pods_hubtel_merchant_checkout_sdk_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F0E7DD1C188E48EAB2A49D /* Pods_hubtel_merchant_checkout_sdk_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,13 +27,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		135AF11143D8D40CA8022BC2 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		1B0A0B0F91065E1F1A2DE2D5 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Tests/Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		1D57150B6C1B48A70F51E94A /* Pods_hubtel_merchant_checkout_sdk_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04D64C762666A27F0332F561 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		22A0F4D3A3F3E058E698244D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		2A5A223D6CFB0DCFC190344A /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4BDA73E85CFFA7A65018800F /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Tests/Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		530C973B7865B2679E33B017 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig"; sourceTree = "<group>"; };
+		352D7E6ED62A33A9D6A72678 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Tests/Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		3EB15085ACEB1F19ACDFF20A /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Tests/Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		56F2009E80F0E38CFCED5BA3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* hubtel_merchant_checkout_sdk_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hubtel_merchant_checkout_sdk_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +42,9 @@
 		607FACE51AFB9204008FA782 /* hubtel_merchant_checkout_sdk_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hubtel_merchant_checkout_sdk_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		89F0E7DD1C188E48EAB2A49D /* Pods_hubtel_merchant_checkout_sdk_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2292A44EFAB1503DFF58F85 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B81D189313FEBDE79EED6AD0 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig"; path = "Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D39996368EEC5E3B1A9AF782 /* hubtel_merchant_checkout_sdk.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = hubtel_merchant_checkout_sdk.podspec; path = ../hubtel_merchant_checkout_sdk.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8B1129E179AD50A68C9B6C2 /* Pods_hubtel_merchant_checkout_sdk_Example.framework in Frameworks */,
+				BAF407BB9BADBA912BD4623C /* Pods_hubtel_merchant_checkout_sdk_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				519041B87CD84DDCC9FB2D09 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework in Frameworks */,
+				548FF4A9009FD63E40F80A53 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,10 +71,10 @@
 		204D6384EE01DC1BA5567C9D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				135AF11143D8D40CA8022BC2 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */,
-				530C973B7865B2679E33B017 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */,
-				4BDA73E85CFFA7A65018800F /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */,
-				1B0A0B0F91065E1F1A2DE2D5 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */,
+				04D64C762666A27F0332F561 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */,
+				B81D189313FEBDE79EED6AD0 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */,
+				3EB15085ACEB1F19ACDFF20A /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */,
+				352D7E6ED62A33A9D6A72678 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -87,7 +87,7 @@
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				204D6384EE01DC1BA5567C9D /* Pods */,
-				987089260202C034E7558BE0 /* Frameworks */,
+				81113DF3B6E54DA085F0E3C8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,11 +149,11 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		987089260202C034E7558BE0 /* Frameworks */ = {
+		81113DF3B6E54DA085F0E3C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1D57150B6C1B48A70F51E94A /* Pods_hubtel_merchant_checkout_sdk_Example.framework */,
-				2A5A223D6CFB0DCFC190344A /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */,
+				89F0E7DD1C188E48EAB2A49D /* Pods_hubtel_merchant_checkout_sdk_Example.framework */,
+				A2292A44EFAB1503DFF58F85 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -165,11 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "hubtel_merchant_checkout_sdk_Example" */;
 			buildPhases = (
-				4AE6181F25D16A1CC7E9631A /* [CP] Check Pods Manifest.lock */,
+				3EDDE92B1253541AA93C0D5E /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				F439ADFCA91326EFE43BF149 /* [CP] Embed Pods Frameworks */,
+				2CD9E402E7CEBC5540229DC3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -184,7 +184,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "hubtel_merchant_checkout_sdk_Tests" */;
 			buildPhases = (
-				D07C63ADF709294A1B56C9AE /* [CP] Check Pods Manifest.lock */,
+				2E3A89F96A47FF675B6A32C5 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
@@ -261,29 +261,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4AE6181F25D16A1CC7E9631A /* [CP] Check Pods Manifest.lock */ = {
+		2CD9E402E7CEBC5540229DC3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/hubtel_merchant_checkout_sdk/hubtel_merchant_checkout_sdk.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hubtel_merchant_checkout_sdk_Example-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hubtel_merchant_checkout_sdk.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D07C63ADF709294A1B56C9AE /* [CP] Check Pods Manifest.lock */ = {
+		2E3A89F96A47FF675B6A32C5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -305,22 +301,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F439ADFCA91326EFE43BF149 /* [CP] Embed Pods Frameworks */ = {
+		3EDDE92B1253541AA93C0D5E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/hubtel_merchant_checkout_sdk/hubtel_merchant_checkout_sdk.framework",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hubtel_merchant_checkout_sdk.framework",
+				"$(DERIVED_FILE_DIR)/Pods-hubtel_merchant_checkout_sdk_Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-hubtel_merchant_checkout_sdk_Example/Pods-hubtel_merchant_checkout_sdk_Example-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -473,11 +473,11 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 135AF11143D8D40CA8022BC2 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */;
+			baseConfigurationReference = 04D64C762666A27F0332F561 /* Pods-hubtel_merchant_checkout_sdk_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = hubtel_merchant_checkout_sdk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -489,11 +489,11 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 530C973B7865B2679E33B017 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */;
+			baseConfigurationReference = B81D189313FEBDE79EED6AD0 /* Pods-hubtel_merchant_checkout_sdk_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = hubtel_merchant_checkout_sdk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -505,7 +505,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BDA73E85CFFA7A65018800F /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */;
+			baseConfigurationReference = 3EB15085ACEB1F19ACDFF20A /* Pods-hubtel_merchant_checkout_sdk_Tests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -516,29 +516,31 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hubtel_merchant_checkout_sdk_Example.app/hubtel_merchant_checkout_sdk_Example";
 			};
 			name = Debug;
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B0A0B0F91065E1F1A2DE2D5 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */;
+			baseConfigurationReference = 352D7E6ED62A33A9D6A72678 /* Pods-hubtel_merchant_checkout_sdk_Tests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hubtel_merchant_checkout_sdk_Example.app/hubtel_merchant_checkout_sdk_Example";
 			};
 			name = Release;

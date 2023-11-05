@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'hubtel_merchant_checkout_sdk'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'A short description of hubtel_merchant_checkout_sdk.'
 
 # This description is used to generate tags and improve search results.
@@ -30,11 +30,11 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '12.0'
   s.swift_version = '5.0'
-  s.source_files = ['TableCells/*.swift','Resources/*', 'Assets/*', 'Networking/*', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
+  s.source_files = ['TableCells/*.swift','Resources/*', 'Networking/*', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
  
-#  s.resource_bundles = {
-#    'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
-#  }
+  s.resource_bundles = {
+    'hubtel_merchant_checkout_sdk' => ['Assets.xcassets', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
+  }
   
   # s.resource_bundles = {
   #   'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png']
