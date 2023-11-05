@@ -1,0 +1,16 @@
+PODS:
+  - hubtel_merchant_checkout_sdk (0.1.0)
+
+DEPENDENCIES:
+  - hubtel_merchant_checkout_sdk (from `../`)
+
+EXTERNAL SOURCES:
+  hubtel_merchant_checkout_sdk:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  hubtel_merchant_checkout_sdk: 57b191ff3739fa97ec5bf55a9d2d1e8414299797
+
+PODFILE CHECKSUM: 108192ff4f19b1e6af7ae282828abcac6a8d64d2
+
+COCOAPODS: 1.13.0

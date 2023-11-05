@@ -1,0 +1,6 @@
+framework module hubtel_merchant_checkout_sdk {
+  umbrella header "hubtel_merchant_checkout_sdk-umbrella.h"
+
+  export *
+  module * { export * }
+}

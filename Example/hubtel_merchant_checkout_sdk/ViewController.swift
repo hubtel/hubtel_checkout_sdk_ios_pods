@@ -7,12 +7,38 @@
 //
 
 import UIKit
+import hubtel_merchant_checkout_sdk
 
 class ViewController: UIViewController {
+    
+    lazy var button: UIButton = {
+        let button  = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Tap me to checkout", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(openCheckout), for: .primaryActionTriggered)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addSubview(button)
+        setupConstraints()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    @objc func openCheckout(){
+        let configuration = HubtelCheckoutConfiguration(merchantId: "11684", callbackUrl: "https://9cb7-154-160-1-110.ngrok-free.app/payment-callback", merchantApiKey: "T0UwajAzcjo5ZjAxMzhkOTk5ZmM0ODMxYjc3MWFhMzEzYTNjMThhNA==")
+        let purchaseInfo = PurchaseInfo(amount: 1, customerPhoneNumber: "0556236739", purchaseDescription: "This is a desc", clientReference:UUID().uuidString)
+        CheckoutViewController.presentCheckout(from: self, with: configuration, and: purchaseInfo, delegate: self, tintColor: UIColor.black)
+    }
+    
+    func setupConstraints(){
+        let buttonConstraints = [
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        NSLayoutConstraint.activate(buttonConstraints)
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,3 +48,11 @@ class ViewController: UIViewController {
 
 }
 
+
+extension ViewController: PaymentFinishedDelegate{
+    func checkStatus(value: hubtel_merchant_checkout_sdk.PaymentStatus) {
+        print(value)
+    }
+    
+    
+}

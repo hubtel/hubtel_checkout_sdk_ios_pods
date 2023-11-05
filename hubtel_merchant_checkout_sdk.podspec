@@ -31,6 +31,9 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'hubtel_merchant_checkout_sdk/Classes/**/*'
+  s.resource_bundles = {
+    'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
+  }
   
   # s.resource_bundles = {
   #   'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png']
