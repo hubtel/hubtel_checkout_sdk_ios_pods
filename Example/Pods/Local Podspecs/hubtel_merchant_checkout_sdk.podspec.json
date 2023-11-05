@@ -1,9 +1,10 @@
 {
   "name": "hubtel_merchant_checkout_sdk",
-  "version": "0.1.6",
-  "summary": "A short description of hubtel_merchant_checkout_sdk.",
+  "version": "0.1.7",
+  "summary": "The Hubtel Checkout Library is a convenient and easy-to-use library that simplifies the process of implementing a checkout flow in your iOS application.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods",
+  "screenshots": "https://firebasestorage.googleapis.com/v0/b/newagent-b6906.appspot.com/o/hubtel-mobile-checkout-ios-sdk-image.png?alt=media&token=376d90ab-c416-42a0-8b99-69028378ff72",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -13,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git",
-    "tag": "0.1.6"
+    "tag": "0.1.7"
   },
   "platforms": {
     "ios": "12.0"
