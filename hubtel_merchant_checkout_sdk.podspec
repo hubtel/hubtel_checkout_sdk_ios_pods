@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'hubtel_merchant_checkout_sdk'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A short description of hubtel_merchant_checkout_sdk.'
 
 # This description is used to generate tags and improve search results.
@@ -21,19 +21,19 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/85908865/hubtel_merchant_checkout_sdk'
+  s.homepage         = 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '85908865' => 'markamoah97@gmail.com' }
-  s.source           = { :git => 'https://github.com/85908865/hubtel_merchant_checkout_sdk.git', :tag => s.version.to_s }
+  s.author           = { 'Mark Amoah' => 'markamoah97@gmail.com' }
+  s.source           = { :git => 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.0'
 
-  s.source_files = 'hubtel_merchant_checkout_sdk/Classes/**/*'
-  s.resource_bundles = {
-    'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
-  }
+  s.source_files = ['TableCells/*.swift','Resources/*', 'Assets/*', 'Networking/*', 'GeneralPages/**/*', 'CustomViews/*', 'Analytics/*', 'General/*', 'CustomViews/otpLibrary/*']
+#  s.resource_bundles = {
+#    'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png', 'hubtel_merchant_checkout_sdk/Resources/*.ttf']
+#  }
   
   # s.resource_bundles = {
   #   'hubtel_merchant_checkout_sdk' => ['hubtel_merchant_checkout_sdk/Assets/*.png']

@@ -202,8 +202,8 @@
 		7BD2D47E5C372B69530F70E7444F4BD8 /* Pods-hubtel_merchant_checkout_sdk_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-hubtel_merchant_checkout_sdk_Example-dummy.m"; sourceTree = "<group>"; };
 		7CE7B7A3EAE74D89D2707E455451E4E9 /* hubtel_merchant_checkout_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = hubtel_merchant_checkout_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80C52CDDF68850330EBAB76481A2BBC4 /* Pods-hubtel_merchant_checkout_sdk_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-hubtel_merchant_checkout_sdk_Tests.modulemap"; sourceTree = "<group>"; };
-		816A90B31716427D6ADE3BD0C39C3586 /* Pods-hubtel_merchant_checkout_sdk_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-hubtel_merchant_checkout_sdk_Tests"; path = Pods_hubtel_merchant_checkout_sdk_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B9501B211EC627E1C5565E8C23C0A2F /* Pods-hubtel_merchant_checkout_sdk_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-hubtel_merchant_checkout_sdk_Example"; path = Pods_hubtel_merchant_checkout_sdk_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		816A90B31716427D6ADE3BD0C39C3586 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B9501B211EC627E1C5565E8C23C0A2F /* Pods_hubtel_merchant_checkout_sdk_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hubtel_merchant_checkout_sdk_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9200CF5B364D75760D33E7E1E505130C /* Pods-hubtel_merchant_checkout_sdk_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-hubtel_merchant_checkout_sdk_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A075A6443040BA2E3C3A903A79C91937 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -312,6 +312,7 @@
 		033867212AF6FB6900C3EC1D /* General */ = {
 			isa = PBXGroup;
 			children = (
+				033867852AF7007400C3EC1D /* HelperFunctions.swift */,
 				033867222AF6FB7C00C3EC1D /* extensions.swift */,
 				033867272AF6FB7C00C3EC1D /* GeneralObjects.swift */,
 				033867242AF6FB7C00C3EC1D /* ModalPresentationDelegate.swift */,
@@ -508,7 +509,6 @@
 				033866F02AF6F9CD00C3EC1D /* Analytics */,
 				6C250E366C40E947FE8331ACDB5D14C1 /* Pod */,
 				E1D05417653B05C25D27E43F8E31C483 /* Support Files */,
-				033867852AF7007400C3EC1D /* HelperFunctions.swift */,
 			);
 			name = hubtel_merchant_checkout_sdk;
 			path = ../..;
@@ -534,8 +534,8 @@
 			isa = PBXGroup;
 			children = (
 				7CE7B7A3EAE74D89D2707E455451E4E9 /* hubtel_merchant_checkout_sdk.framework */,
-				8B9501B211EC627E1C5565E8C23C0A2F /* Pods-hubtel_merchant_checkout_sdk_Example */,
-				816A90B31716427D6ADE3BD0C39C3586 /* Pods-hubtel_merchant_checkout_sdk_Tests */,
+				8B9501B211EC627E1C5565E8C23C0A2F /* Pods_hubtel_merchant_checkout_sdk_Example.framework */,
+				816A90B31716427D6ADE3BD0C39C3586 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -629,7 +629,7 @@
 			);
 			name = "Pods-hubtel_merchant_checkout_sdk_Example";
 			productName = Pods_hubtel_merchant_checkout_sdk_Example;
-			productReference = 8B9501B211EC627E1C5565E8C23C0A2F /* Pods-hubtel_merchant_checkout_sdk_Example */;
+			productReference = 8B9501B211EC627E1C5565E8C23C0A2F /* Pods_hubtel_merchant_checkout_sdk_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		89AD222B0F009CB89051408B53391CC0 /* Pods-hubtel_merchant_checkout_sdk_Tests */ = {
@@ -648,7 +648,7 @@
 			);
 			name = "Pods-hubtel_merchant_checkout_sdk_Tests";
 			productName = Pods_hubtel_merchant_checkout_sdk_Tests;
-			productReference = 816A90B31716427D6ADE3BD0C39C3586 /* Pods-hubtel_merchant_checkout_sdk_Tests */;
+			productReference = 816A90B31716427D6ADE3BD0C39C3586 /* Pods_hubtel_merchant_checkout_sdk_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E2D0F1C3D85CDA14DED4F1C3DC006E77 /* hubtel_merchant_checkout_sdk */ = {

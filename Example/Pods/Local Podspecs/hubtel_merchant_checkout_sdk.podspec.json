@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "summary": "A short description of hubtel_merchant_checkout_sdk.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/85908865/hubtel_merchant_checkout_sdk",
+  "homepage": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,11 +12,11 @@
     "85908865": "markamoah97@gmail.com"
   },
   "source": {
-    "git": "https://github.com/85908865/hubtel_merchant_checkout_sdk.git",
+    "git": "https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "10.0"
+    "ios": "12.0"
   },
-  "source_files": "hubtel_merchant_checkout_sdk/Classes/**/*"
+  "source_files": "hubtel_merchant_checkout_sdk/TableCells/**/*.swift"
 }

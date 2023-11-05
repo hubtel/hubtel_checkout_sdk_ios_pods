@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  hubtel_merchant_checkout_sdk: 57b191ff3739fa97ec5bf55a9d2d1e8414299797
+  hubtel_merchant_checkout_sdk: 8cf7f89c7e68bf33dd098d369cd7225497b44309
 
 PODFILE CHECKSUM: 108192ff4f19b1e6af7ae282828abcac6a8d64d2
 
