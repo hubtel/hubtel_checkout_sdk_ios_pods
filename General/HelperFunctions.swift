@@ -14,8 +14,8 @@ func imageNamed(_ name: String) -> UIImage {
   let traitCollection = UITraitCollection(displayScale: 3)
   
     print(bundle)
-  if let resourceBundle = bundle.resourcePath.flatMap({ Bundle(path: $0 + "/hubtel_merchant_checkout_sdk.framework") }) {
-      print(resourceBundle)
+  if let resourceBundle = bundle.resourcePath.flatMap({ Bundle(path: $0 + "/hubtel_merchant_checkout_sdk.bundle") }) {
+      
     bundle = resourceBundle
   }
     
