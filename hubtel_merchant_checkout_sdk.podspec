@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Mark Amoah' => 'markamoah97@gmail.com' }
+  s.author           = { '85908865' => 'markamoah97@gmail.com' }
   s.source           = { :git => 'https://github.com/hubtel/hubtel_checkout_sdk_ios_pods.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
