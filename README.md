@@ -11,7 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 You can also run `pod try hubtel_merchant_checkout_sdk` in your terminal if you have cocoapods installed to clone and test the example project.
 
-## Requirements
+
 
 ## Installation
 
