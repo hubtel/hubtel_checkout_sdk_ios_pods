@@ -80,7 +80,7 @@ class ProviderSelectorView: UIView {
     }
     
     func getPaymentType()->PaymentType {
-        if getProviderString() == "hubtel"{
+        if getProviderString() == "hubtel" || getProviderString() == "hubtel-gh"{
             return .hubtel
         }
         

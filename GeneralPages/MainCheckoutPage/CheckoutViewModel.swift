@@ -30,6 +30,7 @@ import UIKit
     @objc optional func handleVerificationStatus(value: VerificationResponse?)
     @objc optional func handleOnlyCheckoutHeader()
     @objc optional func handleWalletsForInternalMerchants()
+    @objc optional func  handleChannelsToUpdateView(channels: [String])
 //    @objc optional func handleDirectDebitAction(transaction: MomoResponse?)
 }
 
@@ -196,12 +197,13 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
                 self.delegate?.dismissLoaderToPerformAnotherAction?()
                 
                 self.makeGetWallets(customerMsisdn: UserSetupRequirements.shared.customerPhoneNumber )
-                completion(paymentChannelHandler.mobileMoneyAllowed, paymentChannelHandler.bankAllowed)
+//                completion(paymentChannelHandler.mobileMoneyAllowed, paymentChannelHandler.bankAllowed)
+                self.delegate?.handleChannelsToUpdateView?(channels: channels)
                 
                 
             }else{
-                
-                completion(paymentChannelHandler.mobileMoneyAllowed, paymentChannelHandler.bankAllowed)
+                self.delegate?.handleChannelsToUpdateView?(channels: channels)
+//                completion(paymentChannelHandler.mobileMoneyAllowed, paymentChannelHandler.bankAllowed)
             }
             
         }
@@ -240,7 +242,6 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         getPaymentChannels { mobileMoneyAllowed, bankPaymentAllowed in
             switch (mobileMoneyAllowed, bankPaymentAllowed){
             case (true, true):
-                
                 if self.isHubtelInternalMerchant{
                     self.delegate?.handleWalletsForInternalMerchants?()
                 }else{
@@ -541,6 +542,7 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
     
     func makeGetFeesNewEndPoint(channel: String, amount: Double){
         task?.cancel()
+        print(amount)
         delegate?.showLoaderOnBottomButtonIfNeeded?(with: true)
         NetworkManager.getFeesNew(salesId: salesID ?? "", authKey: merchantApiKey ?? "", amount: amount, channel: channel) { data, error in
             

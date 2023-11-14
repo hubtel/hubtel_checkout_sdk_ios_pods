@@ -1,6 +1,6 @@
 //
 //  OtherPaymentMethodsTableViewCell.swift
-//  
+//
 //
 //  Created by Mark Amoah on 10/3/23.
 //
@@ -22,6 +22,7 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
         delegate?.showMenuForWallet()
         
     }
+    
     
     func selectedCard(card: BankDetails?) {
         
@@ -55,14 +56,14 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
     var walletAdderDelegate: AddMobileWallet?
     
     let walletSeletorTab: ProviderSelectorView = {
-        let selectorView = ProviderSelectorView(provider: "Hubtel", frame: .zero )
+        let selectorView = ProviderSelectorView(provider: "", frame: .zero )
         selectorView.translatesAutoresizingMaskIntoConstraints = false
         selectorView.tag = Tags.providerWalletTagSelector
         return selectorView
     }()
     
     lazy var providerStackHolder: WalletsTabHolderStack = {
-        let stack = WalletsTabHolderStack(paymentMethods: ["Hubtel", "G-Money", "Zeepay"])
+        let stack = WalletsTabHolderStack(paymentMethods: [])
         stack.channelDelegate = self
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
@@ -149,27 +150,37 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
         }
     }
     
-    func configureWallets(wallets: [Wallet]?){
+    func configureWallets(wallets: [Wallet]?, channels: [String] = []){
         //        print("calllllleeeeeeddddddddddddddd")
-        let mobileWallets = wallets?.filter({ wallet in
-            wallet.provider?.lowercased() != "hubtel"
-        })
-        
-        if let wallets = mobileWallets{
+        if CheckOutViewModel.isHubtelMerchantEnabled{
+            let mobileWallets = wallets?.filter({ wallet in
+                wallet.provider?.lowercased() != "hubtel"
+            })
             
-            walletStackHolder = WalletsTabHolderStack(wallets: wallets)
-            
-            walletStackHolder?.walletAdderDelegate = self
-            
-            walletStackHolder?.delegate = self
-            
-            self.wallets = wallets
-            
-            if wallets.count > 0{
-                contactSeletorTab.changeProvider(with: wallets[0].accountNo ?? "")
+            if let wallets = mobileWallets{
+                
+                walletStackHolder = WalletsTabHolderStack(wallets: wallets)
+                
+                walletStackHolder?.walletAdderDelegate = self
+                
+                walletStackHolder?.delegate = self
+                
+                self.wallets = wallets
+                
+                if wallets.count > 0{
+                    contactSeletorTab.changeProvider(with: wallets[0].accountNo ?? "")
+                }
+                
             }
-            
         }
+        if channels.contains("hubtel") || channels.contains("hubtel-gh"){
+            walletSeletorTab.setupString(value: "Hubtel")
+        }else{
+            walletSeletorTab.setupString(value: getChannelName(channel: channels[0]))
+            self.setupDescString(value: channels[0])
+        }
+        
+        providerStackHolder.setup(paymentMethods: channels)
         
     }
     
@@ -397,8 +408,8 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
         NSLayoutConstraint.activate(walletTabSelectorTabConstraints)
         
         let parentStackConstraints = [
-            parentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            parentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            parentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            parentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             parentStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             parentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ]
@@ -411,7 +422,7 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
     }
     
     func setupDescString(value: String){
-        if value.lowercased() == "hubtel"{
+        if value.lowercased() == "hubtel-gh"{
             handleHubtelSelection()
             self.hubtelWalletDescription.text = Strings.hubtelWalletDescString
             delegate?.showMenuForWallet()
@@ -435,7 +446,7 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
     }
     
     func getPaymentType()->PaymentType {
-        if walletSeletorTab.getProviderString() == "hubtel"{
+        if walletSeletorTab.getProviderString() == "hubtel" || walletSeletorTab.getProviderString() == "hubtel-gh"{
             return .hubtel
         }
         
@@ -453,8 +464,20 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
 
 
 extension OtherPaymentMethodsTableViewCell: OtherChannelSelectorProtocol{
-    func selectChannel(channel: String) {
-        self.walletSeletorTab.changeProvider(with: channel)
+    
+    func getChannelName(channel:String)->String{
+        if channel.contains("hubtel"){
+            return "Hubtel"
+        } else if channel.contains("zeepay"){
+            return "Zeepay"
+        }else if channel.contains("g-money"){
+            return "G-money"
+        }
+        return ""
+    }
+    
+        func selectChannel(channel: String) {
+        self.walletSeletorTab.changeProvider(with: getChannelName(channel: channel))
         self.setupDescString(value: channel)
         self.otherPaymentChannelChangeDelegate?.selectChannel(channel: channel)
 //        showMobileProviders()

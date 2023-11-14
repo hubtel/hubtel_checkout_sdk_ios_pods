@@ -104,12 +104,12 @@ class ConfirmedOrderView: UIView {
     }
     
     func setWalletString(walletName: String, amount: Double) -> String{
-        return "Your \(walletName) will be debited with GHS \(amount) after your order is confirmed"
+        return "Your \(walletName) will be debited with \(amount.formatCurrency()) after your order is confirmed"
     }
     
     func setAmountDeductedLabel(amount: Double, currency: String){
         
-        let attString = NSMutableAttributedString(string: "\(currency) \(amount)", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)])
+        let attString = NSMutableAttributedString(string: "\(amount.formatCurrency())", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)])
         
         attString.append(NSAttributedString(string: " has been paid", attributes: [NSAttributedString.Key.foregroundColor: Colors.textGreen.cgColor, NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
         

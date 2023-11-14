@@ -1,11 +1,12 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/31/23.
 //
 
 import Foundation
+import UIKit
 
 
 class Strings{
@@ -99,6 +100,52 @@ class Strings{
       )
           
         return steps
+    }
+    
+    static let Bankpay = "Bank Pay"
+    
+    static let payIn4 = "Pay in 4"
+    
+    static func generateBoldedAmount(amount: String)->NSAttributedString{
+        return NSAttributedString(string: " GHS \(amount) ", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4, weight: .bold)])
+    }
+    
+    static func generatePayIn4String(totalAmount: String, paymentAmountForNow: String, remainingAmount: String)-> NSMutableAttributedString{
+        let paymentDesc = NSMutableAttributedString(string: "You qualify for your item of", attributes: [ NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)])
+        
+        paymentDesc.append(generateBoldedAmount(amount: totalAmount))
+        
+        paymentDesc.append(NSAttributedString(string: "in 4 splits", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(NSAttributedString(string: "\n\nFor this",attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(generateBoldedAmount(amount: totalAmount))
+        
+        paymentDesc.append(NSAttributedString(string: "you may pay", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(generateBoldedAmount(amount: paymentAmountForNow))
+        
+        paymentDesc.append(NSAttributedString(string: "now.", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(NSAttributedString(string: "\n\nPay only",attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(generateBoldedAmount(amount: paymentAmountForNow))
+        
+        paymentDesc.append(NSAttributedString(string: "now. The remaining", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        paymentDesc.append(generateBoldedAmount(amount: remainingAmount))
+        
+        paymentDesc.append(NSAttributedString(string: "will be debited in three equal installments", attributes: [NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)]))
+        
+        return paymentDesc
+        
+    }
+    
+    static func generateBackedByString() -> NSMutableAttributedString{
+        let backedDesc = NSMutableAttributedString(string: "Pay in 4 is backed by Letshego under ", attributes: [ NSAttributedString.Key.font: FontManager.getAppFont(size: .m4)])
+        backedDesc.append(NSAttributedString(string: "these terms", attributes: [NSAttributedString.Key.font : FontManager.getAppFont(size: .m4), NSAttributedString.Key.foregroundColor: Colors.teal2, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.underlineColor: Colors.teal2 ]))
+        return backedDesc
+        
     }
     
 }

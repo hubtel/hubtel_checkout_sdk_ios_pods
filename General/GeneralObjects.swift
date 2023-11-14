@@ -16,24 +16,45 @@ enum CellStyles {
     case bankCardInputs
     case bottomCell
     case otherPaymentMethods
+    case payIn4
 }
 
-enum PaymentType {
+enum PaymentType: String {
+    case none
+    case other
     case momo
     case bank
-    case gmoney
+    case gmoney = "g-money"
     case zeepay
     case bankpay
-    case hubtel
+    case hubtel = "hubtel-gh"
+    case payin4
 }
 
-struct Section: Equatable {
+//[\n      \"cardnotpresent-mastercard\",\n      \"mtn-gh\",\n      \"tigo-gh\",\n      \"hubtel-gh\",\n      \"cardpresent-visa\",\n      \"cardpresent-mastercard\",\n      \"cardnotpresent-visa\",\n      \"g-money\",\n      \"zeepay\",\n      \"vodafone-gh\",\n      \"bankpay\",\n      \"ghqr\"\n    ]
+enum AllPaymentChannels: String{
+    case masterCard = "cardnotpresent-mastercard"
+    case mtn = "mtn-gh"
+    case vodafone = "vodafone-gh"
+    case tigo = "tigo-gh"
+    case gmoney = "g-money"
+    case bankPay = "bankpay"
+    case ghqr = "ghqr"
+    case visa = "cardnotpresent-visa"
+    case zeepay = "zeepay"
+    case hubtel = "hubtel-gh"
+    
+}
+
+struct Section: Equatable{
     let title, imageName: String
     var options: [Option] = []
-   var cellStyle: CellStyles
+    var cellStyle: CellStyles
     var  isOpened: Bool = false
     var hideDivider: Bool = false
-    var paymentType: PaymentType?
+    var paymentType: PaymentType = .none
+    var useConstraints: Bool = true
+    
     static func ==(lhs: Section, rhs: Section)->Bool{
         lhs.title == rhs.title
     }
@@ -377,6 +398,9 @@ struct MomoResponse: Codable{
     customerMsisdn: String?,
     skipOtp: Bool?
     let verificationType: String?
+    let customerName: String?
+    let invoiceNumber: String?
+    let email: String?
     
 }
 

@@ -136,6 +136,22 @@ extension Double {
         return (self * divisor).rounded() / divisor
         
     }
+    
+    func formatCurrency(withCurrency:Bool = true, digits: Int = 2) -> String {
+        
+        let orignal = "\(self)"
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = digits
+        formatter.maximumFractionDigits = digits
+        let result = formatter.string(from: self as NSNumber)
+        if withCurrency {
+            return "GHS \(result ?? orignal)"
+        }
+        
+        return result ?? orignal
+        
+    }
 }
 
 extension UserDefaults{
@@ -320,3 +336,28 @@ extension UIImageView {
     }
 }
 
+
+extension DateFormatter{
+    
+    static func getTodaysDate()->String{
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/yy"
+        return dateFormatter.string(from: currentDate)
+    }
+    
+    static func compareDate(dateString: String)->Bool{
+        let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM/yy"
+        
+        if let date1 = dateFormatter.date(from: DateFormatter.getTodaysDate()),
+           let date2 = dateFormatter.date(from: dateString){
+            return date2 > date1
+        }
+        return false
+    }
+    
+    
+    
+    
+}

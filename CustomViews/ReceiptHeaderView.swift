@@ -261,8 +261,7 @@ class ReceiptHeaderView: UIView {
     }()
     
     func setFees(value: String){
-        print(value)
-        feesValue.text = "GHS "  + String(format: "%.2f", Double(value) ?? 0.00)
+        feesValue.text = String(format: "%.2f", Double(value)?.formatCurrency() ?? 0.00)
     }
     
 //    func updateTotalValue(value: String){
@@ -290,7 +289,7 @@ class ReceiptHeaderView: UIView {
         if let value = value {
             value.forEach({ response in
                 let feesLabel = MyCustomLabel(text: response.name ?? "", font: FontManager.getAppFont(size: .m4))
-                let feesValue = MyCustomLabel(text: "GHS " + String(format: "%.2f", response.amount ?? 0.00), textAlignment: .right)
+                let feesValue = MyCustomLabel(text: response.amount?.formatCurrency() ?? "", textAlignment: .right)
                 let stack = UIStackView(arrangedSubviews: [feesLabel, feesValue])
                 stack.translatesAutoresizingMaskIntoConstraints = false
                 stack.distribution = .fillEqually

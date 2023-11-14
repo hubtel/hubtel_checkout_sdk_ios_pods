@@ -1,6 +1,6 @@
 //
 //  PaymentChoiceTableViewCell.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/2/23.
 //
@@ -8,7 +8,11 @@
 import UIKit
 
 class PaymentChoiceTableViewCell: UITableViewCell {
+    
     static let identifier: String = "paymentChoiceTableCell"
+    
+    var useConstraints: Bool = false
+    
     let paymentType: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,9 +33,13 @@ class PaymentChoiceTableViewCell: UITableViewCell {
     let image1 = ProviderImageView(imageName: "")
     let image2 = ProviderImageView(imageName: "")
     let image3 = ProviderImageView(imageName: "")
+    let image4 = ProviderImageView(imageName: "")
+    let bankPayImage = ProviderImageView(imageName: "bank-pay")
+    
+    
     
     lazy var stack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [image1, image2, image3])
+        let stackView = UIStackView(arrangedSubviews: [image1, image2, image3, image4, bankPayImage])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
         stackView.alignment = .center
@@ -116,23 +124,42 @@ class PaymentChoiceTableViewCell: UITableViewCell {
             stack.centerYAnchor.constraint(equalTo: parentContainer.centerYAnchor)
         ]
         NSLayoutConstraint.activate(stackConstraints)
+       
+
     }
     
-    func render(with value: Section, imageUpdater: ImageUpdatShowerUpdate=ImageUpdatShowerUpdate()){
+    func render(with value: Section, imageUpdater: ImageUpdatShowerUpdate=ImageUpdatShowerUpdate(), channels: [String] = []){
+        
         self.paymentType.text = value.title
         switch value.title{
         case Strings.mobileMoney:
             image1.installImage(imageString: "checkout_mtn_logo", showImage: imageUpdater.showMtn)
-            image2.installImage(imageString: "checkout_airtel_tigo_money_logo", showImage: imageUpdater.showAirtel)
+            image2.installImage(imageString: "airtelTigoLogo", showImage: imageUpdater.showAirtel)
             image3.installImage(imageString: "checkout_vodafone_cash_logo", showImage: imageUpdater.showVoda)
+            image4.isHidden = true
+            bankPayImage.isHidden = true
         case Strings.bankCard:
             image1.installImage(imageString: "")
             image2.installImage(imageString: "checkout_visa_logo", showImage: imageUpdater.showVisa)
             image3.installImage(imageString: "checkout_mastercard_logo", showImage: imageUpdater.showMasterCard)
+            image4.isHidden = true
+            bankPayImage.isHidden = true
         case Strings.others:
-            image1.installImage(imageString: "hubtelLogo")
-            image2.installImage(imageString: "gmoney")
-            image3.installImage(imageString: "zeepay")
+            handleChannels(channels: channels)
+        case Strings.Bankpay:
+            [image3, image2, image1, image4].forEach { image in
+                image.isHidden = true
+            }
+            bankPayImage.installImage(imageString: "bank-pay", useConstraints: false)
+//            image4.installImage(imageString: "bank-pay", useConstraints: self.useConstraints)
+            break
+        case Strings.payIn4:
+            image1.installImage(imageString: "checkout_mtn_logo")
+            image2.installImage(imageString: "checkout_airtel_tigo_money_logo")
+            image3.installImage(imageString: "checkout_visa_logo")
+            image4.installImage(imageString: "checkout_mastercard_logo")
+            bankPayImage.isHidden = true
+            
         default:
             break
         }
@@ -150,6 +177,33 @@ class PaymentChoiceTableViewCell: UITableViewCell {
             
         }
        
+    }
+    
+    func handleChannels(channels: [String]){
+        let images = ["hubtel-gh": "hubtelLogo", "zeepay":"zeepay", "g-money":"gmoney"]
+        
+        let otherChannels = channels.filter({ $0.contains("hubtel") || $0.contains("zeepay") || $0.contains("g-money") })
+        
+        print(otherChannels)
+        if otherChannels.count  > 2{
+            image1.installImage(imageString: "hubtelLogo")
+            image2.installImage(imageString: "gmoney")
+            image3.installImage(imageString: "zeepay")
+            image4.isHidden = true
+            bankPayImage.isHidden = true
+        }else if otherChannels.count  > 1{
+            image1.installImage(imageString: images[otherChannels[0]] ?? "")
+            image2.installImage(imageString: images[otherChannels[1]] ?? "")
+            image3.isHidden = true
+            bankPayImage.isHidden = true
+            image4.isHidden = true
+        }else{
+            image1.installImage(imageString: images[otherChannels[0]] ?? "")
+            image2.isHidden = true
+            image3.isHidden = true
+            bankPayImage.isHidden = true
+            image4.isHidden = true
+        }
     }
     
     func revert(){

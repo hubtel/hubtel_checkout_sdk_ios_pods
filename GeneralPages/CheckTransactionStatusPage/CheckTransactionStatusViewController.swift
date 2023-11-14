@@ -1,6 +1,6 @@
 //
 //  CheckTransactionStatusViewController.swift
-//  
+//
 //
 //  Created by Mark Amoah on 6/20/23.
 //
@@ -105,9 +105,9 @@ class CheckTransactionStatusViewController: UIViewController {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
-            view.image = imageNamed("payment_status")
+            view.image = imageNamed("payment_status").withRenderingMode(.alwaysOriginal)
         }else{
-            view.image = imageNamed("payment_status")
+            view.image = imageNamed("payment_status").withRenderingMode(.alwaysOriginal)
         }
         view.contentMode = .scaleAspectFit
         return view

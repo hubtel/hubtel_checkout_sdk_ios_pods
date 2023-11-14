@@ -156,6 +156,26 @@ class WalletsTabHolderStack: UIView {
         
     }
     
+    func setup(paymentMethods: [String]){
+        
+        for provider in paymentMethods {
+            let walletView = TabSelectorCard(title: provider)
+//            walletView.delegate = self
+//            walletView.savedBankCardDelegate = self
+            walletView.channelDelegate = self
+            walletView.translatesAutoresizingMaskIntoConstraints = false
+            self.customStack.addArrangedSubview(walletView)
+        }
+        
+        self.addSubviews(customStack)
+        
+        setupConstraints()
+        
+        
+    }
+    
+    
+    
     func getProviderName(value: String)->String{
         switch true{
         case value.contains("mtn"):

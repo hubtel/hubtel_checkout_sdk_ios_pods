@@ -1,6 +1,6 @@
 //
 //  CheckoutViewController.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/2/23.
 //
@@ -11,12 +11,38 @@ import UIKit
 
 public class CheckoutViewController: UIViewController {
     lazy var viewModel = CheckOutViewModel(delegate: self)
+    
     var bottomConstraint : NSLayoutConstraint!
-    var paymentType: PaymentType?
+    
+    var paymentType: PaymentType?{
+        didSet{
+            if paymentType == .payin4{
+                bottomButton.setButtonTitle(with: "ACCEPT AND PAY")
+                CheckOutViewModel.allowPayment = true
+            
+                bottomButton.validate(true)
+                return
+            }
+            if paymentType == .bankpay{
+                bottomButton.setButtonTitle(with: "GENERATE INVOICE")
+//                CheckOutViewModel.allowPayment = true
+                bottomButton.validate(true)
+                return
+            }
+            
+            bottomButton.setButtonTitle(with: "PAY")
+            CheckOutViewModel.allowPayment = false
+            bottomButton.validate(false)
+        }
+    }
+    
     lazy var paymentProvider: String = viewModel.providerChannel
+    
     var showBankField: Bool = false
     var showMomoField: Bool = false
     var showOtherFieldsTab: Bool = false
+    var showPayin4TableCell: Bool = false
+    
     static var callBack: (String)->() = {_ in}
     weak var delegate: PaymentFinishedDelegate?
     var salesID =    UserSetupRequirements.shared.salesID
@@ -39,10 +65,13 @@ public class CheckoutViewController: UIViewController {
     var enterNewMandateId: Bool = false
   
     var initCustomerMobilerNumber: String?
+   
     
     var data2 : [Section] = [
         
     ]
+    
+    var channels: [String] = []
     
     
     var order: PurchaseInfo?
@@ -72,12 +101,11 @@ public class CheckoutViewController: UIViewController {
     }
     
     
-    public static func presentCheckoutInternal(from customController: UIViewController, with configuration: HubtelCheckoutConfiguration, and purchaseInfo: PurchaseInfo, delegate: PaymentFinishedDelegate, tintColor: UIColor? = nil, savedBankDetails: BankDetails?) {
+    public static func presentCheckoutInternal(from customController: UIViewController, with configuration: HubtelCheckoutConfiguration, and purchaseInfo: PurchaseInfo, delegate: PaymentFinishedDelegate, tintColor: UIColor? = nil, savedBankDetails: BankDetails?){
         UserSetupRequirements.shared.apiKey = configuration.merchantApiKey
         UserSetupRequirements.shared.callBackUrl = configuration.callbackUrl
         UserSetupRequirements.shared.salesID = configuration.salesID
         UserSetupRequirements.shared.customerPhoneNumber = purchaseInfo.customerMsisDn
-        UserSetupRequirements.isInternalMerchant = true
         let controller = CheckoutViewController()
         controller.order = purchaseInfo
         controller.viewModel.order = purchaseInfo
@@ -114,7 +142,6 @@ public class CheckoutViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-//        registerFonts()
         view.backgroundColor = UIColor(red: 242.0/255, green: 242.0/255, blue: 242.0/255,alpha:1)
         self.view.addSubview(bottomButton)
         self.view.addSubview(tableView)
@@ -125,19 +152,20 @@ public class CheckoutViewController: UIViewController {
         tableView.register(BankPaymentFieldsTableViewCell.self, forCellReuseIdentifier: BankPaymentFieldsTableViewCell.identifier)
         tableView.register(ProviderInfoIntakeTableViewCell.self, forCellReuseIdentifier: ProviderInfoIntakeTableViewCell.identifier)
         tableView.register(OtherPaymentMethodsTableViewCell.self, forCellReuseIdentifier: OtherPaymentMethodsTableViewCell.identifier)
+        tableView.register(Payin4TableViewCell.self, forCellReuseIdentifier: Payin4TableViewCell.identifier)
         tableView.separatorStyle = .none
         navigationController?.navigationBar.prefersLargeTitles = false
         var blackImage: UIImage?
         if #available(iOS 13.0, *) {
             blackImage = imageNamed("close_black").withRenderingMode(.alwaysOriginal)
         } else {
-            blackImage = imageNamed("close_black").withRenderingMode(.alwaysOriginal)
+         blackImage = UIImage(named: "nil")
         }
         if #available(iOS 13.0, *) {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: blackImage, style: .plain, target: self, action: #selector(dismissVC))
         } else {
             // Fallback on earlier versions
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: blackImage, style: .plain, target: self, action: #selector(dismissVC))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "nil"), style: .plain, target: self, action: #selector(dismissVC))
         }
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: ""), style: .plain, target: self, action: nil)
         setupConstraints()
@@ -167,6 +195,11 @@ public class CheckoutViewController: UIViewController {
         let name4 = Notification.Name(rawValue: "doneAddingWallet")
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWallets), name: name4, object: nil)
 
+        print(DateFormatter.getTodaysDate())
+        print("10/23" > "10/24")
+        print("10/23" == "10/24")
+        print("10/23" > "9/24")
+        print("10/23" > "9/23")
     }
     
     @objc func reloadWallets(){
@@ -185,7 +218,7 @@ public class CheckoutViewController: UIViewController {
         super.viewWillAppear(animated)
 //                self.viewModel.makeGetWallets(customerMsisdn: viewModel.order?.customerMsisDn ?? "")
         
-//       
+//
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -210,21 +243,23 @@ public class CheckoutViewController: UIViewController {
             let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
             if isKeyboardShowing {
                 bottomConstraint?.constant =  -keyboardFrame!.height
-                self.view.layoutIfNeeded()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.scrollToLastRow()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.tableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: .top, animated: true
+                    )
                 }
             }else{
                 bottomConstraint?.constant =  0
             }
-            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
     @objc func dismissVC(){
         AnalyticsHelper.recordCheckoutEvent(event: .checkoutPayTapClose)
         CheckoutViewController.cancelTransaction(viewController: self, onCancelled: {
-            BankPaymentFieldsTableViewCell.useSavedCardForPayment = false 
+            BankPaymentFieldsTableViewCell.useSavedCardForPayment = false
             if self.presentingViewController != nil{
                 self.dismiss(animated: true){
                     if UserSetupRequirements.shared.checkToShowCancelledState(){
@@ -289,6 +324,10 @@ extension CheckoutViewController: ViewStatesDelegate{
                 bottomButton.showLoader(value: false, name: Strings.agreeAndContinue)
                
             }else{
+                if (paymentType == .bankpay){
+                    bottomButton.showLoader(value: false, name: "GENERATE INVOICE")
+                    return
+                }
                 bottomButton.showLoader(value: false, name: "PAY")
             }
         }
@@ -308,10 +347,6 @@ extension CheckoutViewController: ViewStatesDelegate{
         
     }
     
-    func scrollToLastRow() {
-        let indexPath = NSIndexPath(row: data2.count - 1, section: 0)
-        self.tableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
-    }
     
     
 
@@ -334,6 +369,12 @@ extension CheckoutViewController: ViewStatesDelegate{
         
         if paymentType == .zeepay || paymentType == .hubtel || paymentType == .gmoney {
             bottomButton.validate(true)
+            return
+        }
+        
+        if paymentType == .bankpay{
+            bottomButton.validate(true)
+            bottomButton.setButtonTitle(with: "GENERATE INVOICE")
             return
         }
       
@@ -392,6 +433,15 @@ extension CheckoutViewController: ViewStatesDelegate{
                 return
             }
             
+            if paymentType == .bankpay{
+                
+                let req = HtmlRequirements(imageUrl:businessImage, clientName: viewModel.momoResponse?.customerName ?? "", customerMsisdn: order?.customerMsisDn ?? "", slipId:viewModel.momoResponse?.invoiceNumber ?? "", email: viewModel.momoResponse?.email ?? "", businessName: businessName)
+                
+                let controller = PdfDownloaderViewController(requirement: req, checkoutResponse: viewModel.momoResponse)
+                self.navigationController?.pushViewController(controller, animated: true)
+                return
+            }
+            
             if CheckOutViewModel.checkoutType == .receivemoneyprompt{
                 self.showAlert(with: Strings.success, message: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? "")){ action in
                     CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? ""),provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount)
@@ -400,7 +450,6 @@ extension CheckoutViewController: ViewStatesDelegate{
             } else if CheckOutViewModel.checkoutType == .preapprovalconfirm{
                 if (self.viewModel.preApprovalResponse?.verificationType == "OTP" && self.viewModel.preApprovalResponse?.skipOtp == false){
                     let controller = OtpScreenViewController(mobileNumber: self.viewModel.momoNumber ?? "", preapprovalResponse: self.viewModel.preApprovalResponse, amount: viewModel.totalAmount)
-                    controller.delegate = self.delegate
                     self.navigationController?.pushViewController(controller, animated: true)
                 }else{
                     if self.viewModel.preApprovalResponse?.preapprovalStatus?.lowercased() == "pending" || self.viewModel.preApprovalResponse?.preapprovalStatus == nil{
@@ -426,7 +475,6 @@ extension CheckoutViewController: ViewStatesDelegate{
                     let approvalStatus = PreApprovalResponse(preapprovalStatus: "", verificationType: self.viewModel.momoResponse?.verificationType, clientReference: self.viewModel.momoResponse?.clientReference, hubtelPreapprovalId: self.viewModel.momoResponse?.hubtelPreapprovalId, otpPrefix: self.viewModel.momoResponse?.otpPrefix, customerMsisdn: self.viewModel.momoResponse?.customerMsisdn, skipOtp: viewModel.momoResponse?.skipOtp, clientReferenceId: self.viewModel.order?.clientReference)
                     
                     let controller = OtpScreenViewController(mobileNumber: viewModel.momoNumber ?? "", preapprovalResponse: approvalStatus, checkoutType: .directdebit, clientReference: self.viewModel.momoResponse?.clientReference ?? self.order?.clientReference)
-                    controller.delegate = self.delegate
                     self.navigationController?.pushViewController(controller, animated: true)
                     
                     return
@@ -470,7 +518,7 @@ extension CheckoutViewController: ViewStatesDelegate{
                 Section(title: Strings.payWith, imageName: Strings.emptyString, cellStyle: .payWithTitle),
                 Section(title: Strings.mobileMoney, imageName: "", cellStyle: .paymentChoiceHeader),
                 Section(title: "", imageName: "", cellStyle: .momoInputs),
-                Section(title: Strings.bankCard, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true),
+                Section(title: Strings.bankCard, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true, useConstraints: false),
                 Section(title: Strings.emptyString, imageName: "", cellStyle: .bankCardInputs),
 //                Section(title: Strings.others, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true),
 //                Section(title: Strings.emptyString, imageName: Strings.emptyString, cellStyle: .otherPaymentMethods),
@@ -500,9 +548,13 @@ extension CheckoutViewController: ViewStatesDelegate{
                 Section(title: "", imageName: "", cellStyle: .momoInputs),
                 Section(title: Strings.bankCard, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: false),
                 Section(title: Strings.emptyString, imageName: "", cellStyle: .bankCardInputs),
-                Section(title: Strings.others, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true),
+                Section(title: Strings.others, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: false),
                 Section(title: Strings.emptyString, imageName: Strings.emptyString, cellStyle: .otherPaymentMethods),
+                Section(title: Strings.Bankpay, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: false, useConstraints: false),
+                Section(title: Strings.payIn4, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true),
+                Section(title: "", imageName: "", cellStyle: .payIn4, hideDivider: true),
                 Section(title: Strings.emptyString, imageName: "", cellStyle: .bottomCell)
+                
             ]
         }
         
@@ -561,6 +613,48 @@ extension CheckoutViewController: ViewStatesDelegate{
         }
        
     }
+    
+    func handleChannelsToUpdateView(channels: [String]){
+        self.channels = channels
+            self.data2 = [Section(title: "", imageName: "", cellStyle: .receiptHeader),
+                          Section(title: Strings.payWith, imageName: Strings.emptyString, cellStyle: .payWithTitle),]
+            
+            if channels.contains(AllPaymentChannels.mtn.rawValue) || channels.contains(AllPaymentChannels.vodafone.rawValue) || channels.contains(AllPaymentChannels.tigo.rawValue){
+                self.data2.append(contentsOf: [
+                    Section(title: Strings.mobileMoney, imageName: "", cellStyle: .paymentChoiceHeader, paymentType: .momo),
+                    Section(title: "", imageName: "", cellStyle: .momoInputs),])
+            }
+            
+            if channels.contains(AllPaymentChannels.masterCard.rawValue) || channels.contains(AllPaymentChannels.visa.rawValue){
+                self.data2.append(contentsOf: [
+                    Section(title: Strings.bankCard, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: false, paymentType: .bank),
+                    Section(title: Strings.emptyString, imageName: "", cellStyle: .bankCardInputs),
+                ])
+            }
+            
+            if channels.contains(AllPaymentChannels.gmoney.rawValue) || channels.contains(AllPaymentChannels.zeepay.rawValue) || channels.contains(AllPaymentChannels.hubtel.rawValue){
+                self.data2.append(contentsOf: [
+                    Section(title: Strings.others, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: channels.contains(AllPaymentChannels.bankPay.rawValue) ? false : true, paymentType: .other),
+                    Section(title: Strings.emptyString, imageName: Strings.emptyString, cellStyle: .otherPaymentMethods)]
+                )
+            }
+        
+        if channels.contains(AllPaymentChannels.bankPay.rawValue){
+            self.data2.append(Section(title: Strings.Bankpay, imageName: "", cellStyle: .paymentChoiceHeader, hideDivider: true, paymentType: .bankpay, useConstraints: false))
+        }
+            
+            self.data2.append(Section(title: Strings.emptyString, imageName: "", cellStyle: .bottomCell))
+            
+            if let progress = progress{
+                progress.dismiss(animated: true){
+                    self.tableView.reloadData()
+                }
+            }else{
+                self.tableView.reloadData()
+            }
+    }
+    
+ 
     
     func handleOnlyBankPayment() {
         self.usesOnlyBankPayment = true
@@ -664,7 +758,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             case .paymentChoiceHeader:
                 let cell = tableView.dequeueReusableCell(withIdentifier: PaymentChoiceTableViewCell.identifier) as! PaymentChoiceTableViewCell
                 print(viewModel.imageUpdater)
-                cell.render(with: section, imageUpdater: viewModel.imageUpdater)
+                cell.render(with: section, imageUpdater: viewModel.imageUpdater, channels: self.channels)
                 cell.hideDivider(with: section.hideDivider)
                 if section.isOpened{
                     cell.turnImage()
@@ -677,11 +771,17 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
                 cell.delegate = self
                 cell.otherPaymentChannelChangeDelegate = self
                 cell.enterNewMandateSelectorDelegate = self
-                cell.configureWallets(wallets: wallets)
+                cell.configureWallets(wallets: wallets, channels: channels.filter({ $0.contains("hubtel") || $0.contains("zeepay") || $0.contains("g-money") }))
                 cell.walletAdderDelegate = self
                 return cell
             case .bottomCell:
                 let cell = tableView.dequeueReusableCell(withIdentifier: BottomCornersTableViewCell.identifier) as! BottomCornersTableViewCell
+                return cell
+            case .payIn4:
+                let cell = tableView.dequeueReusableCell(withIdentifier: Payin4TableViewCell.identifier) as! Payin4TableViewCell
+                cell.setup(totalAmount: "1000", installmentAmount: "250", remainingAmount: "750")
+                cell.termsDelegate = self
+                cell.delegate = self
                 return cell
             }
      
@@ -695,6 +795,8 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             return showBankField ? tableView.rowHeight : 0
         case 7:
             return showOtherFieldsTab ? tableView.rowHeight : 0
+        case 10:
+            return showPayin4TableCell ? tableView.rowHeight : 0
         default:
             return tableView.rowHeight
         }
@@ -709,12 +811,22 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             
             print(paymentProvider)
             print(PaymentChannel.getChannel(string: paymentProvider))
+            
             shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
-             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
-            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
+             
+            if data2.count > 7{
+               
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            }
+            
             showBankField = false
             showMomoField = true
             showOtherFieldsTab = false
+            showPayin4TableCell = false
             self.customerMobileNumber = ((self.view.viewWithTag(Tags.momoNumberSelectorTag) as? ProviderSelectorView)?.getProviderString())
             if usesOnlyBankPayment{
                 handleBankPaymentLogic()
@@ -737,28 +849,72 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             
         }else if indexPath.row == 4 {
             shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
-             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
-            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
+            
+            if data2.count > 7{
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            }
+            
             showBankField = true
             showMomoField = false
             showOtherFieldsTab = false
+            showPayin4TableCell = false
             handleBankPaymentLogic()
+            
         }else if indexPath.row == 6 && section.cellStyle != .bottomCell {
             showBankField = false
             showMomoField = false
+            showPayin4TableCell = false
             showOtherFieldsTab = true
             shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
-             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
+            if data2.count > 7{
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+            }
+            
             paymentType = (self.view.viewWithTag(Tags.providerWalletTagSelector) as? ProviderSelectorView)?.getPaymentType()
             
             customerMobileNumber = (self.view.viewWithTag(Tags.contactSelectorTag) as? ProviderSelectorView)?.getProviderString() ?? initCustomerMobilerNumber
             
-            viewModel.makeGetFeesNewEndPoint(channel: "hubtel-gh", amount: viewModel.order?.amount ?? 0.00)
+               viewModel.makeGetFeesNewEndPoint(channel: paymentType?.rawValue ?? "", amount: viewModel.order?.amount ?? 0.00)
+            
+        }else if indexPath.row == 8{
+            showBankField = false
+            showMomoField = false
+            showPayin4TableCell = false
+            showOtherFieldsTab = false
+            shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+            self.paymentType = .bankpay
+            viewModel.makeGetFeesNewEndPoint(channel: "bankpay", amount: viewModel.order?.amount ?? 0.00)
         }
-        
+        else if indexPath.row == 9{
+            showBankField = false
+            showMomoField = false
+            showOtherFieldsTab = false
+            showPayin4TableCell = true
+            shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
+            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
+            paymentType = .payin4
+            bottomButton.validate(true)
+//            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
+        }
         tableView.performBatchUpdates(nil)
     }
+    
+    
+
+    
     
     func handleBankPaymentLogic(){
         paymentType = .bank
@@ -788,12 +944,13 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func shadeCellSelected(tableView: UITableView,indexPath: IndexPath, isSelected: Bool){
+//        print(tableView.inde)
         let cell = tableView.cellForRow(at: indexPath) as? PaymentChoiceTableViewCell
         if isSelected{
             data2[indexPath.row].isOpened = true
             cell?.turnImage()
         }else{
-            data2[indexPath.row].isOpened = false
+//            data2[indexPath.row].isOpened = false
             cell?.revert()
         }
         
@@ -809,13 +966,13 @@ extension CheckoutViewController{
 //        if let fontURL = Bundle.module.url(forResource: Strings.regularSans, withExtension: Strings.fontExtension) {
 //            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
 //        }
-//      
+//
 //        if let fontURL = Bundle.module.url(forResource: Strings.extraBoldSans, withExtension: Strings.fontExtension) {
-//          
+//
 //            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
 //        }
-//      
-//        
+//
+//
 //        if let fontURL = Bundle.module.url(forResource: Strings.sansSemiBold, withExtension: Strings.fontExtension) {
 //            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
 //        }
@@ -861,7 +1018,7 @@ extension CheckoutViewController: OtherChannelSelectorProtocol, MandateIdSelecto
     
     
     func handleOtherPaymentChannelSelected(value: String){
-        if value.lowercased() == "hubtel"{
+        if value.lowercased() == "hubtel" || value.lowercased() == "hubtel-gh" {
             self.paymentType = .hubtel
             viewModel.makeGetFeesNewEndPoint(channel: "hubtel-gh", amount: viewModel.order?.amount ?? 0.00)
             return
@@ -885,6 +1042,7 @@ extension CheckoutViewController: OtherChannelSelectorProtocol, MandateIdSelecto
         customerMobileNumber = (self.view.viewWithTag(Tags.contactSelectorTag) as? ProviderSelectorView)?.getProviderString()
         initCustomerMobilerNumber = (self.view.viewWithTag(Tags.contactSelectorTag) as? ProviderSelectorView)?.getProviderString()
     }
+    
     
     
 }
@@ -926,6 +1084,12 @@ extension CheckoutViewController: ButtonActionDelegate{
         
     }
     
+    func payIn4transaction(){
+       let controller = PayInFourViewController()
+        controller.delegate = self
+        self.present(controller, animated: true)
+    }
+    
     func performAction() {
         AnalyticsHelper.recordCheckoutEvent(event: .checkoutPayTapButtonPay)
         UserSetupRequirements.shared.resetStates()
@@ -940,6 +1104,10 @@ extension CheckoutViewController: ButtonActionDelegate{
             payWithHubtelWallet()
         case .gmoney:
             payWithGmoney()
+        case .payin4:
+            payIn4transaction()
+        case .bankpay:
+           payWithMomo()
         default:
             print("no payment here")
         }
@@ -959,8 +1127,8 @@ extension CheckoutViewController: ShowMenuItemsDelegate{
     func showMenuForWallet() {
         
         tableView.performBatchUpdates(nil)
-        self.tableView.scrollToRow(at: IndexPath(row: 3, section: 0), at: .bottom, animated: true)
-//        
+        self.tableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: .middle, animated: true)
+        
 //        self.view.layoutIfNeeded()
     }
     
@@ -1222,5 +1390,15 @@ extension CheckoutViewController: AddMobileWallet{
         let controller = AddMobileWalletViewController()
         self.navigationController?.pushViewController(controller, animated: true)
     }
+}
+
+extension CheckoutViewController: PerformPayIn4Delegate{
+    func showPaymentDetails() {
+        let view = self.view.viewWithTag(33377) as? Payin4TableViewCell
+        self.bottomButton.setButtonTitle(with: "PAY")
+        view?.setupPaymentInstallments()
+    }
+    
+    
 }
 

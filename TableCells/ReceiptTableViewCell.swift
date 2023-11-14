@@ -56,15 +56,15 @@ class ReceiptTableViewCell: UITableViewCell {
     }
     
     func setupUI(with info: PurchaseInfo?, totalAmount: Double){
-        receiptView.amountValue.text = "GHS " + String(format: "%.2f", info?.amount.roundValue() ?? 0.00)
+        receiptView.amountValue.text = info?.amount.formatCurrency()
 //        receiptView.businessName.text = info?.businessName
 
-        let attributedString = NSMutableAttributedString(string: "GHS ", attributes: [NSAttributedString.Key.font : FontManager.getAppFont(size: .m5), .baselineOffset: 10])
-        
-
-        attributedString.append(NSAttributedString(string: String(format: "%.2f", totalAmount), attributes: [NSAttributedString.Key.font : FontManager.getAppFont(size: .m9, weight: .bold)]))
-                                
-        receiptView.totalAmount.attributedText = attributedString
+//        let attributedString = NSMutableAttributedString(string: "GHS ", attributes: [NSAttributedString.Key.font : FontManager.getAppFont(size: .m5), .baselineOffset: 10])
+//        
+//
+//        attributedString.append(NSAttributedString(string: String(format: "%.2f", totalAmount), attributes: [NSAttributedString.Key.font : FontManager.getAppFont(size: .m9, weight: .bold)]))
+//                                
+        receiptView.totalAmount.text = totalAmount.formatCurrency()
 
     }
     
