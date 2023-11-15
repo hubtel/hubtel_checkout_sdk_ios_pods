@@ -100,12 +100,12 @@ public class CheckoutViewController: UIViewController {
         
     }
     
-    
-    public static func presentCheckoutInternal(from customController: UIViewController, with configuration: HubtelCheckoutConfiguration, and purchaseInfo: PurchaseInfo, delegate: PaymentFinishedDelegate, tintColor: UIColor? = nil, savedBankDetails: BankDetails?){
+    public static func presentCheckoutInternal(from customController: UIViewController, with configuration: HubtelCheckoutConfiguration, and purchaseInfo: PurchaseInfo, delegate: PaymentFinishedDelegate, tintColor: UIColor? = nil, savedBankDetails: BankDetails?) {
         UserSetupRequirements.shared.apiKey = configuration.merchantApiKey
         UserSetupRequirements.shared.callBackUrl = configuration.callbackUrl
         UserSetupRequirements.shared.salesID = configuration.salesID
         UserSetupRequirements.shared.customerPhoneNumber = purchaseInfo.customerMsisDn
+        UserSetupRequirements.isInternalMerchant = true
         let controller = CheckoutViewController()
         controller.order = purchaseInfo
         controller.viewModel.order = purchaseInfo
@@ -819,7 +819,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             if data2.count > 7{
                
                 shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
-                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                if data2.count > 9{
+                    shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                }
                 shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
             }
             
@@ -853,7 +855,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             
             if data2.count > 7{
                 shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
-                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                if data2.count > 9{
+                    shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                }
                 shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
             }
             
@@ -873,7 +877,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
             if data2.count > 7{
                 shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 8, section: 0), isSelected: false)
-                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                if data2.count > 9{
+                    shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+                }
             }
             
             paymentType = (self.view.viewWithTag(Tags.providerWalletTagSelector) as? ProviderSelectorView)?.getPaymentType()
@@ -891,7 +897,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 4, section: 0), isSelected: false)
             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 2, section: 0), isSelected: false)
             shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 6, section: 0), isSelected: false)
-            shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+            if data2.count > 9{
+                shadeCellSelected(tableView: tableView, indexPath: IndexPath(row: 9, section: 0), isSelected: false)
+            }
             self.paymentType = .bankpay
             viewModel.makeGetFeesNewEndPoint(channel: "bankpay", amount: viewModel.order?.amount ?? 0.00)
         }
@@ -947,10 +955,13 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
 //        print(tableView.inde)
         let cell = tableView.cellForRow(at: indexPath) as? PaymentChoiceTableViewCell
         if isSelected{
+            print(indexPath.row)
             data2[indexPath.row].isOpened = true
             cell?.turnImage()
         }else{
-//            data2[indexPath.row].isOpened = false
+            print(data2.count)
+            print(indexPath.row)
+            data2[indexPath.row].isOpened = false
             cell?.revert()
         }
         

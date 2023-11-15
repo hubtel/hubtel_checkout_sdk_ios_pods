@@ -55,6 +55,8 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
     
     var walletAdderDelegate: AddMobileWallet?
     
+    var renderChannels: Bool = false
+    
     let walletSeletorTab: ProviderSelectorView = {
         let selectorView = ProviderSelectorView(provider: "", frame: .zero )
         selectorView.translatesAutoresizingMaskIntoConstraints = false
@@ -178,6 +180,10 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
         }else{
             walletSeletorTab.setupString(value: getChannelName(channel: channels[0]))
             self.setupDescString(value: channels[0])
+        }
+        providerStackHolder.customStack.arrangedSubviews.forEach { view in
+            providerStackHolder.customStack.removeArrangedSubview(view)
+            view.isHidden = true
         }
         
         providerStackHolder.setup(paymentMethods: channels)
