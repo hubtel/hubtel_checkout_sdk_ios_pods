@@ -67,9 +67,17 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
     
     lazy var totalAmount: Double = order?.amount ?? 0.00
     
-    var setupResponse: Setup3dsResponse?
+    var setupResponse: Setup3dsResponse?{
+        didSet{
+            UserSetupRequirements.transactionId = setupResponse?.transactionId ?? ""
+        }
+    }
     
-    var momoResponse: MomoResponse?
+    var momoResponse: MomoResponse?{
+        didSet{
+            UserSetupRequirements.transactionId = momoResponse?.transactionId ?? ""
+        }
+    }
     
     var momoNumber: String?
     

@@ -30,7 +30,9 @@ class PdfDownloaderViewController: UIViewController, QLPreviewControllerDataSour
     
     var formatter: UIPrintFormatter?
     
-    lazy var fileName = "\((req?.businessName ?? "").trimmingCharacters(in: .whitespaces))_\((momoResponse?.customerName ?? "").trimmingCharacters(in: .whitespaces))-bank-pay-receipt-\(Date().timeIntervalSince1970 * 1000).pdf"
+    weak var delegate: PaymentFinishedDelegate?
+    
+    lazy var fileName = "\((req?.businessName ?? "").trimmingCharacters(in: .whitespaces))_\((momoResponse?.customerName ?? "").trimmingCharacters(in: .whitespaces))_bank_pay_receipt_\(Date().timeIntervalSince1970 * 1000).pdf"
     
     lazy var bottomButton: CustomButtonView = {
         let button = CustomButtonView()
@@ -41,10 +43,11 @@ class PdfDownloaderViewController: UIViewController, QLPreviewControllerDataSour
         return button
     }()
     
-    init(requirement: HtmlRequirements, checkoutResponse: MomoResponse?){
+    init(requirement: HtmlRequirements, checkoutResponse: MomoResponse?, delegate: PaymentFinishedDelegate?){
         super.init(nibName: nil, bundle: nil)
         self.momoResponse = checkoutResponse
         self.req = requirement
+        self.delegate = delegate
     }
     
     
@@ -133,16 +136,27 @@ extension PdfDownloaderViewController: ButtonActionDelegate{
                // Show a Quick Look preview
                let previewController = QLPreviewController()
                previewController.dataSource = self
-               self.present(previewController, animated: true, completion: nil)
+               previewController.delegate = self
+            self.present(previewController, animated: true)
 
                // Alternatively, you can share the PDF through UIActivityViewController
                // Create a URL to the saved PDF and pass it to the activity view controller
-               let shareURL = [pdfFileURL]
-               let activityViewController = UIActivityViewController(activityItems: shareURL, applicationActivities: nil)
-               self.present(activityViewController, animated: true, completion: nil)
+//               let shareURL = [pdfFileURL]
+//               let activityViewController = UIActivityViewController(activityItems: shareURL, applicationActivities: nil)
+//               self.present(activityViewController, animated: true, completion: nil)
            }
     }
     
     
     
+}
+
+extension PdfDownloaderViewController: QLPreviewControllerDelegate{
+    func previewControllerDidDismiss(_ controller: QLPreviewController) {
+        self.dismiss(animated: true) {
+            self.delegate?.checkStatus(value: .pendingBankPayPayment, transactionId: UserSetupRequirements.transactionId)
+            
+            UserSetupRequirements.transactionId = ""
+        }
+    }
 }

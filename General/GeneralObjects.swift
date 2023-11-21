@@ -82,6 +82,7 @@ public enum PaymentStatus {
     case paymentFailed
     case paymentSuccessful
     case unknown
+    case pendingBankPayPayment
 }
 
 public struct MobilePaymentProvider {
@@ -110,6 +111,7 @@ class UserSetupRequirements{
     var userCheckStatusReached: Bool = false
     var userTransactionFailed: Bool = false
     var userTransactionSucceeded: Bool = false
+    static var transactionId: String = ""
     static var isInternalMerchant = false
     private init(salesID: String = "", apiKey: String = "", callBackUrl: String = ""){
         self.salesID = salesID
@@ -133,6 +135,10 @@ class UserSetupRequirements{
     
     func resetStates(){
         (userTransactionFailed, userTransactionSucceeded, userCheckStatusReached) = (false, false, false)
+    }
+    
+    func resetTransactionId(){
+        UserSetupRequirements.transactionId = "";
     }
     
 }

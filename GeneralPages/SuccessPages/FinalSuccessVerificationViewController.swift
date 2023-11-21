@@ -76,7 +76,8 @@ class FinalSuccessVerificationViewController: UIViewController {
 extension FinalSuccessVerificationViewController: ButtonActionDelegate{
     func performAction() {
         self.dismiss(animated: true){
-            self.delegate?.checkStatus(value: .paymentSuccessful)
+            self.delegate?.checkStatus(value: .paymentSuccessful, transactionId: UserSetupRequirements.transactionId)
+            UserSetupRequirements.transactionId = ""
         }
     }
 }

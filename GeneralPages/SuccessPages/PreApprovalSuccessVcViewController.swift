@@ -72,7 +72,8 @@ class PreApprovalSuccessVcViewController: UIViewController {
 extension PreApprovalSuccessVcViewController: ButtonActionDelegate{
     func performAction() {
         self.dismiss(animated: true){
-            self.delegate?.checkStatus(value: .paymentSuccessful)
+            self.delegate?.checkStatus(value: .paymentSuccessful, transactionId:UserSetupRequirements.transactionId)
+            UserSetupRequirements.transactionId = ""
         }
     }
 }

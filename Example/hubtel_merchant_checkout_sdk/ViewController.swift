@@ -50,8 +50,8 @@ class ViewController: UIViewController {
 
 
 extension ViewController: PaymentFinishedDelegate{
-    func checkStatus(value: hubtel_merchant_checkout_sdk.PaymentStatus) {
-        print(value)
+    func checkStatus(value: hubtel_merchant_checkout_sdk.PaymentStatus, transactionId: String) {
+        print(value, transactionId)
     }
     
     

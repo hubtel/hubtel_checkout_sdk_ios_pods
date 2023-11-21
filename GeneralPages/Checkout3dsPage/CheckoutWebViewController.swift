@@ -14,7 +14,7 @@ enum CheckoutState{
 }
 
 public protocol PaymentFinishedDelegate: AnyObject{
-    func checkStatus(value: PaymentStatus)
+    func checkStatus(value: PaymentStatus, transactionId: String)
 }
 
 

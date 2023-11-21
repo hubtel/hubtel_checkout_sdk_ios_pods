@@ -235,13 +235,15 @@ extension CheckTransactionStatusViewController: ButtonActionDelegate{
             if General.usePresentation{
                 self.dismiss(animated: true){
             
-                    self.delegate?.checkStatus(value: self.transactionStatusCheck ?? .paymentFailed)
+                    self.delegate?.checkStatus(value: self.transactionStatusCheck ?? .paymentFailed, transactionId:  UserSetupRequirements.transactionId)
                     General.usePresentation = false
+                    UserSetupRequirements .transactionId = ""
                 }
             }else{
                 self.navigationController?.popViewController(animated: true)
                 self.navigationController?.popViewController(animated: true)
-                self.delegate?.checkStatus(value: self.transactionStatusCheck ?? .paymentFailed)
+                self.delegate?.checkStatus(value: self.transactionStatusCheck ?? .paymentFailed, transactionId: UserSetupRequirements.transactionId)
+                UserSetupRequirements.transactionId = ""
             }
         }else{
 

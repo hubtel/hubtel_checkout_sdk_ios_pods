@@ -117,7 +117,8 @@ class FailedTransactionViewController: UIViewController {
 extension FailedTransactionViewController: ButtonActionDelegate{
     func performAction() {
         self.dismiss(animated: true){
-            self.finishedDelegate?.checkStatus(value: .paymentFailed)
+            self.finishedDelegate?.checkStatus(value: .paymentFailed, transactionId: UserSetupRequirements.transactionId)
+            UserSetupRequirements.transactionId = ""
             
         }
     }

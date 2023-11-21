@@ -258,29 +258,30 @@ public class CheckoutViewController: UIViewController {
     
     @objc func dismissVC(){
         AnalyticsHelper.recordCheckoutEvent(event: .checkoutPayTapClose)
-        CheckoutViewController.cancelTransaction(viewController: self, onCancelled: {
+       
             BankPaymentFieldsTableViewCell.useSavedCardForPayment = false
             if self.presentingViewController != nil{
                 self.dismiss(animated: true){
                     if UserSetupRequirements.shared.checkToShowCancelledState(){
-                        self.delegate?.checkStatus(value: .userCancelledPayment)
+                        self.delegate?.checkStatus(value: .userCancelledPayment, transactionId: UserSetupRequirements.transactionId)
                     }else if UserSetupRequirements.shared.checkToShowFailedState(){
-                        self.delegate?.checkStatus(value: .paymentFailed)
+                        self.delegate?.checkStatus(value: .paymentFailed,   transactionId:  UserSetupRequirements.transactionId)
                     }else if UserSetupRequirements.shared.checkToShowTransactionSuccessState(){
-                        self.delegate?.checkStatus(value: .paymentSuccessful)
+                        self.delegate?.checkStatus(value: .paymentSuccessful, transactionId: UserSetupRequirements.transactionId)
                     }else{
-                        self.delegate?.checkStatus(value: .unknown)
+                        self.delegate?.checkStatus(value: .unknown, transactionId: UserSetupRequirements.transactionId)
                     }
                    
                     CheckoutViewController.completedStatusString = "You cancelled the payment"
+                    UserSetupRequirements.transactionId = ""
                 }
             }else{
                 self.navigationController?.popToRootViewController(animated: true)
-                self.delegate?.checkStatus(value: .userCancelledPayment)
+                self.delegate?.checkStatus(value: .userCancelledPayment, transactionId: UserSetupRequirements.transactionId)
+                UserSetupRequirements.transactionId = ""
             }
        
-            
-        })
+        
     }
     
     func setupConstraints(){
@@ -301,6 +302,7 @@ public class CheckoutViewController: UIViewController {
     
     deinit{
         CheckOutViewModel.allowPayment = false
+        UserSetupRequirements.transactionId = ""
     }
 }
 
@@ -346,7 +348,6 @@ extension CheckoutViewController: ViewStatesDelegate{
         
         
     }
-    
     
     
 
@@ -437,7 +438,7 @@ extension CheckoutViewController: ViewStatesDelegate{
                 
                 let req = HtmlRequirements(imageUrl:businessImage, clientName: viewModel.momoResponse?.customerName ?? "", customerMsisdn: order?.customerMsisDn ?? "", slipId:viewModel.momoResponse?.invoiceNumber ?? "", email: viewModel.momoResponse?.email ?? "", businessName: businessName)
                 
-                let controller = PdfDownloaderViewController(requirement: req, checkoutResponse: viewModel.momoResponse)
+                let controller = PdfDownloaderViewController(requirement: req, checkoutResponse: viewModel.momoResponse, delegate: delegate)
                 self.navigationController?.pushViewController(controller, animated: true)
                 return
             }
@@ -1297,6 +1298,12 @@ extension CheckoutViewController{
         
         if paymentType == .zeepay{
             let request = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber ?? (textField as? UITextField)?.text, channel: "zeepay", amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: nil)
+            viewModel.paywithMomo(request: request)
+            return
+        }
+        
+        if paymentType == .bankpay{
+            let request = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber ?? (textField as? UITextField)?.text, channel: "bankpay", amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: nil)
             viewModel.paywithMomo(request: request)
             return
         }
