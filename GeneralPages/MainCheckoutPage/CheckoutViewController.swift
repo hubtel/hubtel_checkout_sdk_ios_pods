@@ -243,16 +243,14 @@ public class CheckoutViewController: UIViewController {
             let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
             if isKeyboardShowing {
                 bottomConstraint?.constant =  -keyboardFrame!.height
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.tableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: .top, animated: true
-                    )
+                self.view.layoutIfNeeded()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.scrollToLastRow()
                 }
             }else{
                 bottomConstraint?.constant =  0
             }
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.view.layoutIfNeeded()
-            })
+            
         }
     }
     
@@ -1133,6 +1131,12 @@ extension CheckoutViewController: ButtonActionDelegate{
 //        let controller = GovernmentIdIntakeViewController()
 //        self.present(controller, animated: true)
     }
+    
+    func scrollToLastRow() {
+        let indexPath = NSIndexPath(row: data2.count - 1, section: 0)
+        self.tableView.scrollToRow(at: indexPath as IndexPath, at: .middle, animated: true)
+    }
+    
 }
 
 extension CheckoutViewController: ShowMenuItemsDelegate{
