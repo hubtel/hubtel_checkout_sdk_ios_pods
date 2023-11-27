@@ -76,6 +76,10 @@ public class CheckoutViewController: UIViewController {
     
     var order: PurchaseInfo?
     
+    var shouldActivateMomoFieldIfInputFilled = false
+    
+    var shouldActivateButtonifBankCardsFieldAllFilled = false
+    
     ///This static function is used to start the checkout process.
     ///- parameter customController: This is the controller to present the checkout view controller from your code. In most cases, `self` works when the current controller is the presenter.
     ///- parameter configuration: A struct having `salesId`, `callbackUrl`, and `merchantApiKey` as properties. This is used to add prerequisite values to the checkout process
@@ -195,11 +199,7 @@ public class CheckoutViewController: UIViewController {
         let name4 = Notification.Name(rawValue: "doneAddingWallet")
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWallets), name: name4, object: nil)
 
-        print(DateFormatter.getTodaysDate())
-        print("10/23" > "10/24")
-        print("10/23" == "10/24")
-        print("10/23" > "9/24")
-        print("10/23" > "9/23")
+        
     }
     
     @objc func reloadWallets(){
@@ -376,9 +376,15 @@ extension CheckoutViewController: ViewStatesDelegate{
             bottomButton.setButtonTitle(with: "GENERATE INVOICE")
             return
         }
+        
+        if shouldActivateMomoFieldIfInputFilled{
+            bottomButton.validate(true)
+        }
+        
+        if shouldActivateButtonifBankCardsFieldAllFilled{
+            bottomButton.validate(true)
+        }
       
-        
-        
     }
     
     func showErrorMessagetToUser(message: String) {
@@ -839,6 +845,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
                 viewModel.makeGetFeesNewEndPoint(channel: PaymentChannel.getChannel(string: paymentProvider).rawValue, amount: viewModel.order?.amount ?? 0.00)
                 
                  let momoTextField = view.viewWithTag(Tags.mobileMoneyTextFieldTag) as? UITextField
+               
+                    self.shouldActivateMomoFieldIfInputFilled = (momoTextField?.getTextCount() ?? 0) >= 9
+                
                  UIView.animate(withDuration: 0.5) {
                      if self.wallets == nil{
                          momoTextField?.becomeFirstResponder()
@@ -933,17 +942,25 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
         
         
         if !BankPaymentFieldsTableViewCell.useSavedCardForPayment{
-            let bankNameField = self.view.viewWithTag(Tags.accountNameTextFieldTag) as? UITextField
+            let bankNameField = self.view.viewWithTag(Tags.accountNameTextFieldTag) as? CustomTextField
             let accountNumberTextFieldTag =  self.view.viewWithTag(Tags.accountNumberTextFieldTag) as? UITextField
+            let expiryTextField = self.view.viewWithTag(Tags.expiryDateTextFieldTag) as? CustomTextField
+            let cvvTextField = self.view.viewWithTag(Tags.cvvTextFieldTag) as? CustomTextField
+            
+            let allFieldsField = (bankNameField?.getTextCount() ?? 0) > 0 && (accountNumberTextFieldTag?.getTextCountWithoutSpacing() ?? 0) == 16 && (cvvTextField?.getTextCount() ?? 0) == 3 && (expiryTextField?.getTextCount() ?? 0) > 4
+            
+            let allFieldsFieldInternal =  (accountNumberTextFieldTag?.getTextCountWithoutSpacing() ?? 0) == 16 && (cvvTextField?.getTextCount() ?? 0) == 3 && (expiryTextField?.getTextCount() ?? 0) > 4
+            
             UIView.animate(withDuration: 0.5) {
                 if self.viewModel.isHubtelInternalMerchant{
                     accountNumberTextFieldTag?.becomeFirstResponder()
+                    self.shouldActivateButtonifBankCardsFieldAllFilled = allFieldsFieldInternal
                 }else{
                     bankNameField?.becomeFirstResponder()
+                    self.shouldActivateButtonifBankCardsFieldAllFilled = allFieldsField
                 }
-                
-               
             }
+            
             self.bottomButton.validate(false)
         }else{
             self.bottomButton.validate(true)
@@ -1280,7 +1297,7 @@ extension CheckoutViewController{
     
     func payWithMomo() {
         print(paymentProvider)
-        let amount = self.viewModel.totalAmount.roundValue(toPlaces: 2)
+//        let amount = self.viewModel.totalAmount.roundValue(toPlaces: 2)
         let channel = paymentProvider
         let textField = view.viewWithTag(Tags.mobileMoneyTextFieldTag)
         
