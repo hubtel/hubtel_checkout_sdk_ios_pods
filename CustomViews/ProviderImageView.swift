@@ -14,9 +14,9 @@ class ProviderImageView: UIImageView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
-            image = imageNamed(imageName)
+            image = imageNamed(imageName).withRenderingMode(.alwaysOriginal)
         }else{
-         image = imageNamed(imageName)
+            image = imageNamed(imageName).withRenderingMode(.alwaysOriginal)
         }
         
         contentMode = .scaleAspectFit

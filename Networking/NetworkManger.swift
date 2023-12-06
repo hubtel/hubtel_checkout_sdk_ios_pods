@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/3/23.
 //
@@ -100,9 +100,9 @@ class NetworkManager{
             
             switch self{
             case let .setupPayerAuth(salesId):
-                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/cardnotpresent/setup-payerauth"
+                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/cardnotpresentunified/initiate-authentication"
             case let .enrollPayerAuth(salesId, transactionId):
-                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/cardnotpresent/enroll-payerauth/\(transactionId)"
+                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/cardnotpresentunified/authenticate-payer/\(transactionId)"
             case let .mobileMoney(salesId):
                 return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/unifiedcheckout/receive/mobilemoney/prompt"
             case let .checkFees(salesId):
@@ -188,7 +188,7 @@ class NetworkManager{
         
         print(endpoint)
         
-        guard let request = makeRequest(endpoint: endpoint, httpMethod: .GET, apiKey: authKey) else{
+        guard let request = makeRequest(endpoint: endpoint, httpMethod: .POST, apiKey: authKey) else{
             completion(nil, .someThingHappened)
             return
         }

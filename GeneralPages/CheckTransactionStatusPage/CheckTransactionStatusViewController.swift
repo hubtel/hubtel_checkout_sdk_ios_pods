@@ -224,7 +224,7 @@ extension CheckTransactionStatusViewController: ButtonActionDelegate{
         }
        
        
-        if mobileMoneyConfirmed && CheckOutViewModel.checkoutType == .preapprovalconfirm && transactionStatusCheck == .paymentSuccessful{
+        if mobileMoneyConfirmed && CheckOutViewModel.checkoutType == .preapprovalconfirm && transactionStatusCheck == .paymentSuccessful && (provider?.contains("mtn") ?? false || provider?.contains("voda") ?? false) {
             let controller = PreApprovalSuccessVcViewController(walletName: "mobile money wallet", amount: self.transactionDetails?.amountCharged ?? 0.00, delegate: self.delegate
             )
             self.navigationController?.pushViewController(controller, animated: true)
@@ -253,8 +253,13 @@ extension CheckTransactionStatusViewController: ButtonActionDelegate{
                 viewModel.checkTransactionStatus(clientReference: self.transactionDetails?.clientReference ?? clientReference  ?? self.transactionId ?? "")
             }else if  CheckOutViewModel.checkoutType == .preapprovalconfirm{
                 dump(transactionDetails)
-                viewModel.checkTransactionStatusPreApprovalConfirm(clientReference: self.clientReference ?? "")
-            }
+                if ((provider?.contains("mtn") ?? false || provider?.contains("voda") ?? false)){
+                    viewModel.checkTransactionStatusPreApprovalConfirm(clientReference: self.clientReference ?? "")
+                }else{
+                    viewModel.checkTransactionStatus(clientReference: self.transactionId ?? "")
+                }
+                
+                }
             else{
                 viewModel.checkTransactionStatus(clientReference: self.transactionId ?? "")
             }

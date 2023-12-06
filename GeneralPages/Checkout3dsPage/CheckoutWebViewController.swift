@@ -1,6 +1,6 @@
 //
 //  CheckoutWebViewController.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/3/23.
 //
@@ -11,6 +11,12 @@ import WebKit
 enum CheckoutState{
     case startState
     case endState
+}
+
+enum WebViewStrings: String{
+    case collectionDone = "device_data_collection_done"
+    case controlReturnIdentifier = "CONTROL_RETURN_IDENTIFIER"
+    case transactionCompleted = "transaction_complete"
 }
 
 public protocol PaymentFinishedDelegate: AnyObject{
@@ -67,6 +73,7 @@ class CheckoutWebViewController: UIViewController {
         let view  = WKWebView(frame: .zero, configuration: getWKWebViewConfiguration())
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alpha = 0
+        view.navigationDelegate = self
         return view
     }()
     
@@ -117,8 +124,17 @@ class CheckoutWebViewController: UIViewController {
     }
     
     func loadPage(){
+//        print(setup3dsResponse?.processor)
+//        if setup3dsResponse?.processor?.lowercased() == Processors.cs.rawValue{
+//            webView.loadHTMLString(makeHtmlString(accessToken: setup3dsResponse?.accessToken ?? ""), baseURL: nil)
+//
+//        }else{
+//            self.viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
+//        }
         
-        webView.loadHTMLString(makeHtmlString(accessToken: setup3dsResponse?.accessToken ?? ""), baseURL: nil)
+        webView.loadHTMLString(setup3dsResponse?.html?.replaceVariable(variableName: WebViewStrings.controlReturnIdentifier.rawValue, with: "window.webkit.messageHandlers.console.postMessage(\"\(WebViewStrings.collectionDone.rawValue)\")") ?? "", baseURL: nil)
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -169,6 +185,8 @@ class CheckoutWebViewController: UIViewController {
         </html>
 """
     }
+    
+    
   
 
 }
@@ -176,24 +194,57 @@ class CheckoutWebViewController: UIViewController {
 
 extension CheckoutWebViewController: WKScriptMessageHandler, WKNavigationDelegate{
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print(message)
+        print(message.body)
+        print(message.name)
         
-        if message.name == "console" && (message.body as? String) == "https://cybersourcecallbacks.hubtel.com"{
-//            showAlert(with: "Success", message: "Your payment is being processed. Click ok to check payment status") { action in
-                self.dismiss(animated: true){
-                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate)
-                }
-//            }
+        let onEventCalled = message.name == "console"
+        
+        if  onEventCalled && (message.body as? String) == WebViewStrings.collectionDone.rawValue{
+            viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
         }
         
-        
-        if message.name == "console"{
-            webView.stopLoading()
-            print("entering here")
-            if makeEnrollment2{
-                viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
+        if onEventCalled && (message.body as? String) == WebViewStrings.transactionCompleted.rawValue{
+            print(message)
+            self.dismiss(animated: true){
+                CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate)
             }
-            makeEnrollment2 = false
+            return
         }
+        
+//        if message.name == "console" && (message.body as? String) == "https://cybersourcecallbacks.hubtel.com"{
+////            showAlert(with: "Success", message: "Your payment is being processed. Click ok to check payment status") { action in
+//            if makeEnrollment{
+//                self.dismiss(animated: true){
+//                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate)
+//                }
+//                //
+//            }
+//            makeEnrollment = false
+//        }
+//
+//        if message.name  == "console" && (message.body as? String) == "accessbank"{
+//            self.dismiss(animated: true){
+//                CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate)
+//            }
+//        }else if message.name == "console" && (message.body as? String) != "accessbank"{
+//            webView.stopLoading()
+//            print("entering here")
+//            if makeEnrollment2{
+//                viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
+//            }
+//            makeEnrollment2 = false
+//        }
+//
+        
+//        if message.name == "console"{
+//            webView.stopLoading()
+//            print("entering here")
+//            if makeEnrollment2{
+//                viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
+//            }
+//            makeEnrollment2 = false
+//        }
         
        
     }
@@ -208,8 +259,68 @@ extension CheckoutWebViewController: WKScriptMessageHandler, WKNavigationDelegat
         print("WKWebView : didFailProvisionalNavigation",error.localizedDescription)
     }
     
+
+    
+ 
     
     
+ 
+    
+    func handleCheckoutAccessBank2(accessToken: String)->String{
+        return """
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Document</title>
+          </head>
+          <body>
+            <div
+              id="threedsChallengeRedirect"
+              xmlns="http://www.w3.org/1999/html"
+              style="height: 100vh"
+            >
+              <form
+                id="threedsChallengeRedirectForm"
+                method="POST"
+                action="https://acs2.quipu.de"
+                target="challengeFrame"
+              >
+                <input
+                  type="hidden"
+                  name="creq"
+                  value="\(accessToken)"
+                />
+              </form>
+              <iframe
+                id="challengeFrame"
+                name="challengeFrame"
+                width="100%"
+                height="100%"
+              ></iframe>
+              <script id="authenticate-payer-script">
+                var e = document.getElementById("threedsChallengeRedirectForm");
+                if (e) {
+                  e.submit();
+                  if (e.parentNode !== null) {
+                    e.parentNode.removeChild(e);
+                  }
+                }
+                window.addEventListener("message", function handler(event) {
+                  console.log(event)
+                  if (event.origin === "https://accessbankcallbacks.hubtel.com") {
+                    window.webkit.messageHandlers.console.postMessage("accessbank")
+                    this.removeEventListener("message", handler);
+                  }
+                });
+              </script>
+            </div>
+          </body>
+        </html>
+    """
+    }
+
     
     func continueCheckout(withOrderId orderId: String, andhubtelReference reference: String, jwt: String, customData: String? = nil )->String{
         let htmlString = """
@@ -284,21 +395,33 @@ extension CheckoutWebViewController: CheckOutWebViewDelegate{
 //        progress = showProgress(isCancellable: true)
     }
     
+//    viewModel.makeEnrollment(with: setup3dsResponse?.transactionId ?? "")
+    
     func open3dsPage() {
         
         progress?.dismiss(animated: true){
-            
-            if self.viewModel.enrollmentResponse?.cardStatus == CardStatus.authSuccessFull.rawValue{
-                self.dismiss(animated: true){
-                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: "Checking Payment Status",delegate: self.delegate)
-                }
+//            if self.setup3dsResponse?.processor?.lowercased() == Processors.cs.rawValue{
+//                            if self.viewModel.enrollmentResponse?.cardStatus == CardStatus.authSuccessFull.rawValue{
+//                                self.dismiss(animated: true){
+//                                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: "Checking Payment Status",delegate: self.delegate)
+//                                    return
+//                                }
+//
+//                                return
+//                            }
+//                            else{
+//                                self.webView.alpha = 1
+//                                self.view.alpha = 1
+//                                self.webView.loadHTMLString(self.continueCheckout(withOrderId: "", andhubtelReference: "", jwt: self.viewModel.enrollmentResponse?.jwt ?? "", customData: self.viewModel.enrollmentResponse?.customData ?? "" ), baseURL: nil)
+//                            }
+//            }else{
+                print("\n\n\nhtml: \(self.viewModel.enrollmentResponse?.html)\n\n\n")
                 
-                
-            }else{
                 self.webView.alpha = 1
                 self.view.alpha = 1
-                self.webView.loadHTMLString(self.continueCheckout(withOrderId: "", andhubtelReference: "", jwt: self.viewModel.enrollmentResponse?.jwt ?? "", customData: self.viewModel.enrollmentResponse?.customData ?? "" ), baseURL: nil)
-            }
+                self.webView.loadHTMLString(self.viewModel.enrollmentResponse?.html?.replaceVariable(variableName: "CONTROL_RETURN_IDENTIFIER", with: "window.webkit.messageHandlers.console.postMessage(\"\(WebViewStrings.transactionCompleted.rawValue)\")") ?? "", baseURL: nil)
+                
+//            }
         }
     }
     
@@ -309,5 +432,16 @@ extension CheckoutWebViewController: CheckOutWebViewDelegate{
                 
             }
         }
+    }
+}
+
+enum Processors: String{
+    case ab
+    case cs
+}
+
+extension String{
+    func replaceVariable(variableName: String, with value: String)->String{
+        return self.replacingOccurrences(of: variableName, with: value)
     }
 }

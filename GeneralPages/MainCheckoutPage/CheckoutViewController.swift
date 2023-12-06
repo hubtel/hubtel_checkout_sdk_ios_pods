@@ -1343,8 +1343,11 @@ extension CheckoutViewController{
                 continueToKycFlow(mobileNumber: mobileNumberText ?? "")
                 return
             }
-           
-            viewModel.makePreapprovalConfirm(body: preApprovalCall)
+            if channel.contains("tigo"){
+                viewModel.paywithMomo(request: momoRequest)
+            }else{
+                viewModel.makePreapprovalConfirm(body: preApprovalCall)
+            }
         default:
             viewModel.paywithMomo(request: momoRequest)
         }

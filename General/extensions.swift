@@ -80,7 +80,7 @@ extension String{
     func getExpiryInfo()->(month:String, year:String)?{
         guard self.contains("/") else {return nil}
         let splitExpiry = self.split(separator: "/")
-        let expiryYear = "20" + splitExpiry[1]
+        let expiryYear = String(splitExpiry[1])
         let expiryMonth = String(splitExpiry[0])
         return (expiryMonth, expiryYear)
     }

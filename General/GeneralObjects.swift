@@ -196,6 +196,8 @@ struct Setup3dsResponse: Codable {
     let deviceDataCollectionUrl: String?
     let clientReference: String?
     let transactionId: String?
+    let html:String?
+    let processor: String?
 }
 
 struct DeviceCollectionObj: Codable{
@@ -338,6 +340,8 @@ struct Enroll3dsResponse: Codable{
     let charges: Double?
     let customData: String?
     let jwt: String?
+    let html: String?
+    let processor: String?
     var customCardData: [String: Any]?{
         guard let jsonString = customData?.data(using: .utf8), let jsonObject = try? JSONSerialization.jsonObject(with: jsonString, options: []), let jsonDictionary = jsonObject as? [String: Any] else{
             return nil
