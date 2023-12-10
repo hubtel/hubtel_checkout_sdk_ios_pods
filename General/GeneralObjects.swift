@@ -74,6 +74,7 @@ public struct SetupPayerAuthRequest: Codable {
     let description: String
     let clientReference: String
     let callbackUrl: String
+    var integrationChannel = "UnifiedCheckout-iOS"
     
 }
 
@@ -178,6 +179,7 @@ public struct MobileMoneyPaymentRequest: Codable{
         let description: String?
         let clientReference: String?
         var mandateId:String?
+        var integrationChannel = "UnifiedCheckout-iOS"
 }
 
 struct ApiResponse< T: Codable>: Codable{
