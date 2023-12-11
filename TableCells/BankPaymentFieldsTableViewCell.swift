@@ -1,6 +1,6 @@
 //
 //  BankPaymentFieldsTableViewCell.swift
-//  
+//
 //
 //  Created by Mark Amoah on 5/2/23.
 //
@@ -412,7 +412,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
     func allInputsEmpty()->Bool{
         print(self.isInternalHubtelMerchant)
         if self.isInternalHubtelMerchant{
-          return cvvTextField.getTextCount() == 0 || expiryDateTextField.getTextCount() == 0 
+          return cvvTextField.getTextCount() == 0 || expiryDateTextField.getTextCount() == 0
         }
         return accountNameTextField.getTextCount() == 0 || cvvTextField.getTextCount() == 0 || expiryDateTextField.getTextCount() == 0 || accountNameTextField.getTextCount() == 0
     }
@@ -423,7 +423,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
             delegate?.activateButton(validate: false)
         }
         
-        if self.isInternalHubtelMerchant{
+        if !self.isInternalHubtelMerchant{
             if (textField ) === accountNameTextField{
                 if !allInputsEmpty() && (textField ).getInputText().shouldNotContainumbers(){
                     delegate?.activateButton(validate: true)
@@ -470,8 +470,19 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
        
         if textField === expiryDateTextField{
             if (textField ).getTextCount() == 5{
-                textField.resignFirstResponder()
-                cvvTextField.becomeFirstResponder()
+                print(DateFormatter.compareDate(dateString: textField.text ?? ""))
+                if (DateFormatter.compareDate(dateString: textField.text ?? "")){
+                    textField.textColor = .black
+                    textField.resignFirstResponder()
+                    CheckOutViewModel.allowPayment = true
+                    cvvTextField.becomeFirstResponder()
+                }else{
+                    textField.textColor = .red
+                    self.delegate?.activateButton(validate: false)
+                    CheckOutViewModel.allowPayment = false
+                    return
+                }
+                
             }
             if !allInputsEmpty() && (textField ).getTextCount() == 5{
                 delegate?.activateButton(validate: true)
@@ -604,6 +615,19 @@ extension BankPaymentFieldsTableViewCell: UITextFieldDelegate{
             }
            
         }
+        
+//        if textField === expiryDateTextField{
+//            textField.textColor = .red
+//            textField.text = string
+//            return false
+//        }
+//
+//        if textField === expiryDateTextField && textField.getTextCount() == 5{
+//            textField.textColor = .red
+//            if (DateFormatter.compareDate(dateString: textField.text ?? "")){
+//                textField.textColor = .red
+//            }
+//        }
         
         if textField === accountNumberTextField{
        

@@ -352,6 +352,8 @@ extension DateFormatter{
         
         if let date1 = dateFormatter.date(from: DateFormatter.getTodaysDate()),
            let date2 = dateFormatter.date(from: dateString){
+            print(date1)
+            print(date2)
             return date2 > date1
         }
         return false
