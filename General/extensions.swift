@@ -347,6 +347,16 @@ extension DateFormatter{
     }
     
     static func compareDate(dateString: String)->Bool{
+        print(dateString.startIndex);
+        let startIndex = dateString.startIndex
+        let endIndex = dateString.index(startIndex, offsetBy: 1)
+        let monthString = dateString[startIndex...endIndex];
+        
+        if ((Int(monthString) ?? 0) > 12 || (Int(monthString) ?? 0) == 0){
+            return false;
+        }
+        
+
         let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM/yy"
         
