@@ -64,6 +64,12 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
         return selectorView
     }()
     
+    let contactViewTab: ContactInputField = {
+        let view = ContactInputField(provider: "0556236739", frame: .zero)
+        view.isHidden = false
+        return view
+    }()
+    
     lazy var providerStackHolder: WalletsTabHolderStack = {
         let stack = WalletsTabHolderStack(paymentMethods: [])
         stack.channelDelegate = self
@@ -174,6 +180,8 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
                 }
                 
             }
+        }else{
+            contactViewTab.changeProvider(with: UserSetupRequirements.shared.customerPhoneNumber.returnNumberWithout233())
         }
         if channels.contains("hubtel") || channels.contains("hubtel-gh"){
             walletSeletorTab.setupString(value: "Hubtel")
@@ -366,8 +374,14 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
             
             }
         
-        self.contactSeletorTab.isHidden = false
-        self.parentStack.insertArrangedSubview(contactSeletorTab, at: 1)
+        if !CheckOutViewModel.isHubtelMerchantEnabled{
+            self.contactViewTab.isHidden = false
+            self.parentStack.insertArrangedSubview(contactViewTab, at: 1)
+        }else{
+            self.contactSeletorTab.isHidden = false
+            self.parentStack.insertArrangedSubview(contactSeletorTab, at: 1)
+        }
+        
         
     }
     
@@ -379,9 +393,15 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
             }
             
             }
-        self.contactSeletorTab.isHidden = false
+        if !CheckOutViewModel.isHubtelMerchantEnabled{
+            self.contactViewTab.isHidden = false
+            self.parentStack.insertArrangedSubview(contactViewTab, at: 1)
+        }else{
+            self.contactSeletorTab.isHidden = false
+            self.parentStack.insertArrangedSubview(contactSeletorTab, at: 1)
+        }
         self.horizontalStackForImageHolder.isHidden = false
-        self.parentStack.insertArrangedSubview(contactSeletorTab, at: 1)
+       
         self.parentStack.insertArrangedSubview(horizontalStackForImageHolder, at: 2)
         
     }
@@ -395,6 +415,11 @@ class OtherPaymentMethodsTableViewCell: UITableViewCell, AddMobileWallet, Wallet
             if (view === self.contactSeletorTab){
                 self.parentStack.removeArrangedSubview(view)
                 self.contactSeletorTab.isHidden = true
+            }
+            
+            if (view === self.contactViewTab){
+                self.parentStack.removeArrangedSubview(view)
+                self.contactViewTab.isHidden = true
             }
             
             if (view === self.horizontalStackForImageHolder){

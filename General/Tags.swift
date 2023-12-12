@@ -19,4 +19,5 @@ struct Tags{
     static let providerWalletTagSelector = 11161
     static let contactSelectorTag = 22261
     static let momoNumberSelectorTag = 333661
+    static let contactInputView = 1061
 }

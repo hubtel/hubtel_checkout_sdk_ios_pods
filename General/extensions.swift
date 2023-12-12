@@ -97,7 +97,22 @@ extension String{
         if self.hasPrefix("0"){
             return "233" + self.dropFirst()
         }
-        return self
+        
+        if self.hasPrefix("233"){
+            return self
+        }
+        return "233" + self
+    }
+    
+    func returnNumberWithout233()-> Self{
+        if self.hasPrefix("0"){
+            return String(self.dropFirst())
+        }
+        
+        if self.hasPrefix("233"){
+            return String(self.dropFirst(3))
+        }
+        return ""
     }
     
     func wordCased()->String{

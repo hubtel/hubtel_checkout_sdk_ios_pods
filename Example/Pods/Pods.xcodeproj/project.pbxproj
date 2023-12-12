@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02DA3A461ECB4267BAF648289198F397 /* MyCustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D48A93EC4B5B1291594744189AFCDE /* MyCustomLabel.swift */; };
+		033D266E2B274CA300C8E667 /* ContactInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D266D2B274CA300C8E667 /* ContactInputField.swift */; };
 		03DAE0F42B011D620031370F /* Payin4TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE0F32B011D620031370F /* Payin4TableViewCell.swift */; };
 		03DAE0F62B011DF40031370F /* InstallmentFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE0F52B011DF40031370F /* InstallmentFieldsView.swift */; };
 		03DAE0F82B011FC10031370F /* NowHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DAE0F72B011FC10031370F /* NowHeaderView.swift */; };
@@ -125,6 +126,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		033D266D2B274CA300C8E667 /* ContactInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInputField.swift; sourceTree = "<group>"; };
 		03DAE0F32B011D620031370F /* Payin4TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payin4TableViewCell.swift; sourceTree = "<group>"; };
 		03DAE0F52B011DF40031370F /* InstallmentFieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentFieldsView.swift; sourceTree = "<group>"; };
 		03DAE0F72B011FC10031370F /* NowHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowHeaderView.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				0F120B9B2592FFD43148AEFE419AE568 /* otpLibrary */,
 				03DAE0F52B011DF40031370F /* InstallmentFieldsView.swift */,
 				03DAE0F72B011FC10031370F /* NowHeaderView.swift */,
+				033D266D2B274CA300C8E667 /* ContactInputField.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				03DAE1002B0121020031370F /* BoldedDescriptionTableViewCell.swift in Sources */,
 				2654F1A17670BFE6D10452630CBBD136 /* BankPaymentFieldsTableViewCell.swift in Sources */,
 				2E442132F113D3CA08CFD44520E53519 /* BottomCornersTableViewCell.swift in Sources */,
+				033D266E2B274CA300C8E667 /* ContactInputField.swift in Sources */,
 				57B2FA23F2760485228E2C3277425819 /* CardDetailsView.swift in Sources */,
 				C41124B956D135122E2DE9749F680985 /* CardTableViewCell.swift in Sources */,
 				D18678391668A28ED09B344198C6E7A7 /* CardVerificationViewController.swift in Sources */,

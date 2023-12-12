@@ -892,7 +892,12 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             
             paymentType = (self.view.viewWithTag(Tags.providerWalletTagSelector) as? ProviderSelectorView)?.getPaymentType()
             
-            customerMobileNumber = (self.view.viewWithTag(Tags.contactSelectorTag) as? ProviderSelectorView)?.getProviderString() ?? initCustomerMobilerNumber
+            if !CheckOutViewModel.isHubtelMerchantEnabled{
+                customerMobileNumber = (self.view.viewWithTag(Tags.contactInputView) as? UITextField)?.text ?? initCustomerMobilerNumber ?? initCustomerMobilerNumber
+            }else{
+                customerMobileNumber = (self.view.viewWithTag(Tags.contactInputView) as? ProviderSelectorView)?.getProviderString() ?? initCustomerMobilerNumber
+            }
+            
             
                viewModel.makeGetFeesNewEndPoint(channel: paymentType?.rawValue ?? "", amount: viewModel.order?.amount ?? 0.00)
             
@@ -1094,12 +1099,11 @@ extension CheckoutViewController: ButtonActionDelegate{
     }
     
     func payWithGmoney(){
-        
         let formattedAmount = String(format: "%.2f", order?.amount ?? 0.00)
         
         let mandateId = MandateIdManager.shared.getMandateIdFromCache()
         
-        let request = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber, channel: "g-money", amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: mandateId)
+        let request = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber?.generateFormattedPhoneNumber(), channel: "g-money", amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: mandateId)
       
         if enterNewMandateId || mandateId == nil{
             let controller = MandateIdIntakeViewController(mobileMoneyRequest: request, delegate: delegate)
@@ -1299,13 +1303,16 @@ extension CheckoutViewController{
         print(paymentProvider)
 //        let amount = self.viewModel.totalAmount.roundValue(toPlaces: 2)
         let channel = paymentProvider
+        
         let textField = view.viewWithTag(Tags.mobileMoneyTextFieldTag)
         
         let formattedAmount = String(format: "%.2f", order?.amount ?? 0.00)
         
         let mobileNumberText = customerMobileNumber ?? (textField as? UITextField)?.text
         
-        let momoRequest = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber ?? (textField as? UITextField)?.text, channel: channel, amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: nil)
+        print(mobileNumberText)
+        
+        let momoRequest = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber?.generateFormattedPhoneNumber() ?? (textField as? UITextField)?.text, channel: channel, amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: nil)
 //
 //        viewModel.momoNumber = (textField as? UITextField)?.text
 //        viewModel.paywithMomo(request: momoRequest)
