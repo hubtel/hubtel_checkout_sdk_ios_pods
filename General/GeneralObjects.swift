@@ -157,7 +157,7 @@ enum PaymentChannel: String{
             return PaymentChannel.mtn
         case "vodafone-gh-ussd", "Vodafone Ghana", "vodafone", "Vodafone Cash", "voda":
             return .voda
-        case "airtel-tigo-gh", "tigo-gh", "Airtel Tigo", "Airtel Tigo Cash", "tigo":
+        case "airtel-tigo-gh", "tigo-gh", "Airtel Tigo", "Airtel Tigo Cash", "tigo", "airteltigo":
             return .airtelTigo
         case "masterCard":
             return .masterCard
