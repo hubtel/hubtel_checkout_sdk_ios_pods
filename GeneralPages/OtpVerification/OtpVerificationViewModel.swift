@@ -33,6 +33,31 @@ class OtpRequestViewModel: CheckoutRequirements{
         self.delegate?.dismissLoaderToPerformMomoPayment?()
     }
     
+    func handleOtpResponse(value: ApiResponse<OtpResponseModel?>?){
+        
+        print(value)
+        guard let data = value else {
+            self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+            return
+        }
+        
+        
+        if data.code == 200 {
+            DispatchQueue.main.async {
+                self.delegate?.dismissLoaderForReceiveMoney?()
+            }
+            return
+        }
+        guard let responseObject  = data.data else {
+            self.delegate?.showErrorMessagetToUser?(message: data.message ?? "")
+            return
+        }
+        DispatchQueue.main.async{
+            self.delegate?.dismissLoaderForReceiveMoney?()
+        }
+        
+    }
+    
     
     func makeotpVerification(body: OtpBodyRequest){
         
@@ -58,6 +83,33 @@ class OtpRequestViewModel: CheckoutRequirements{
             let decodedData = NetworkManager.decode(data: data, decodingType: ApiResponse<OtpResponse?>.self)
             
             self.handleApiResponseForPreApprovalConfirm(value: decodedData)
+            
+        }
+    }
+    
+    func makeMomoOtpRequest(body: VerifyMomoRequest){
+        
+        delegate?.showLoadingStateWhileMakingNetworkRequest?(with: true)
+        NetworkManager.verifyMomoOtp(salesID: salesID ?? "", authKey: merchantApiKey ?? "", requestBody: body) { data, error in
+            
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+                }
+                return
+            }
+            
+            guard let data = data  else {
+                DispatchQueue.main.async {
+                    self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+                    self.delegate?.showLoaderOnBottomButtonIfNeeded?(with: false)
+                }
+                return
+            }
+            
+            let decodedData = NetworkManager.decode(data: data, decodingType: ApiResponse<OtpResponseModel?>.self)
+            
+            self.handleOtpResponse(value: decodedData)
             
         }
     }

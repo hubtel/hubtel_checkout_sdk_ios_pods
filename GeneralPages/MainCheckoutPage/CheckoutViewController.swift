@@ -79,7 +79,7 @@ public class CheckoutViewController: UIViewController {
     var shouldActivateMomoFieldIfInputFilled = false
     
     var shouldActivateButtonifBankCardsFieldAllFilled = false
-    
+    var otpCompleted = false
     ///This static function is used to start the checkout process.
     ///- parameter customController: This is the controller to present the checkout view controller from your code. In most cases, `self` works when the current controller is the presenter.
     ///- parameter configuration: A struct having `salesId`, `callbackUrl`, and `merchantApiKey` as properties. This is used to add prerequisite values to the checkout process
@@ -230,6 +230,10 @@ public class CheckoutViewController: UIViewController {
         }
        
         AnalyticsHelper.recordCheckoutEvent(event: .checkoutPayViewPagePay)
+        if otpCompleted{
+            self.payWithMomo()
+            otpCompleted = false
+        }
   
 //        bottomButton.validate(false)
     }
@@ -753,7 +757,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
                 return cell
             case .bankCardInputs:
                 let cell = tableView.dequeueReusableCell(withIdentifier: BankPaymentFieldsTableViewCell.identifier) as! BankPaymentFieldsTableViewCell
-                cell.setupUI(value: viewModel.isHubtelInternalMerchant)
+                cell.setupUI(value: true)
                 cell.delegate = self
                 cell.configureWallets(wallets: BankDetails.getDetails())
                 cell.isInternalHubtelMerchant = viewModel.isHubtelInternalMerchant
@@ -1253,7 +1257,7 @@ extension CheckoutViewController{
         
                 if switcherValue ?? false{
 //                    cardDetails.save()
-                    cardDetails.saveToDb()
+              cardDetails.saveToDb()
                 }
         
         let requestBody : SetupPayerAuthRequest?
@@ -1300,7 +1304,7 @@ extension CheckoutViewController{
     }
     
     func payWithMomo() {
-        print(paymentProvider)
+   
 //        let amount = self.viewModel.totalAmount.roundValue(toPlaces: 2)
         let channel = paymentProvider
         
@@ -1310,7 +1314,7 @@ extension CheckoutViewController{
         
         let mobileNumberText = customerMobileNumber ?? (textField as? UITextField)?.text
         
-        print(mobileNumberText)
+    
         
         let momoRequest = MobileMoneyPaymentRequest(customerName: "", customerMsisdn: customerMobileNumber?.generateFormattedPhoneNumber() ?? (textField as? UITextField)?.text, channel: channel, amount: formattedAmount, primaryCallbackUrl: callbackUrl, description: order?.purchaseDescription, clientReference: order?.clientReference, mandateId: nil)
 //
@@ -1364,6 +1368,17 @@ extension CheckoutViewController{
     
     func continueToKycFlow(mobileNumber: String){
         self.viewModel.checkUserVerificationStatus(mobileNumber: mobileNumber)
+    }
+    
+    func handleOtpRequest(requestId: String?, otpPrefix: String?, otpApprovalStatus: String?) {
+            self.progress?.dismiss(animated: true) { [self] in
+                let preApprovalResponse = PreApprovalResponse(preapprovalStatus: otpApprovalStatus, verificationType: "momo", clientReference: self.viewModel.order?.clientReference, hubtelPreapprovalId: requestId, otpPrefix: otpPrefix, customerMsisdn: self.viewModel.order?.customerMsisDn, skipOtp: false, clientReferenceId: self.viewModel.order?.clientReference)
+                let controller = OtpScreenViewController(mobileNumber: self.viewModel.order?.customerMsisDn ?? "", preapprovalResponse: preApprovalResponse, )
+                controller.continueDelegate = self
+                self.navigationController?.pushViewController(controller, animated: true)
+                
+            }
+        
     }
     
     
@@ -1451,3 +1466,13 @@ extension CheckoutViewController: PerformPayIn4Delegate{
     
 }
 
+extension CheckoutViewController: ContinueMomoDelegate{
+    func continueWithMomo() {
+        self.viewModel.businessRequiresOtp = false
+        self.otpCompleted = true
+        
+//        self.payWithMomo()
+    }
+    
+    
+}

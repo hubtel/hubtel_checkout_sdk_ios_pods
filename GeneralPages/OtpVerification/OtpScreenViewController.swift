@@ -7,8 +7,15 @@
 
 import UIKit
 
+protocol ContinueMomoDelegate{
+    func continueWithMomo();
+}
+
 class OtpScreenViewController: UIViewController {
     var delegate: PaymentFinishedDelegate?
+    
+    var continueDelegate: ContinueMomoDelegate?
+    
     var progress: UIAlertController?
     
     var buttonConstraint: NSLayoutConstraint!
@@ -69,12 +76,15 @@ class OtpScreenViewController: UIViewController {
         
         let otpString = "\(otpResponse?.otpPrefix ?? "")-\(self.otpString ?? "")"
         
+        if otpResponse?.verificationType == "momo" {
+            let otpRequest = VerifyMomoRequest(msisdn: otpResponse?.customerMsisdn ?? "", otpCode: otpString, requestId: otpResponse?.hubtelPreapprovalId)
+            self.viewModel.makeMomoOtpRequest(body: otpRequest)
+            return;
+        }
+        
         let otpRequest = OtpBodyRequest(customerMsisdn: otpResponse?.customerMsisdn ?? "", hubtelPreApprovalId: otpResponse?.hubtelPreapprovalId, clientReferenceId: otpResponse?.clientReference ?? clientReference, otpCode: otpString)
-        print(otpRequest)
         
         self.viewModel.makeotpVerification(body: otpRequest)
-        
-        
         
     }
     
@@ -238,6 +248,14 @@ extension OtpScreenViewController: ViewStatesDelegate{
         }else{
             showAlert(with: "Error",message: message)
         }
+    }
+    
+    func dismissLoaderForReceiveMoney() {
+        progress?.dismiss(animated: true){
+            self.navigationController?.popViewController(animated: true)
+            self.continueDelegate?.continueWithMomo()
+        }
+       
     }
     
 }

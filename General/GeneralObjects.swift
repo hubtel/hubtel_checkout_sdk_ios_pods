@@ -283,7 +283,7 @@ struct NewGetFeesResponse: Codable {
         case CheckoutType.receivemoneyprompt.rawValue:
             return .receivemoneyprompt
         case CheckoutType.directdebit.rawValue:
-            return .directdebit
+            return .receivemoneyprompt
         case CheckoutType.preapprovalconfirm.rawValue:
             return .preapprovalconfirm
         default:
@@ -315,6 +315,17 @@ struct MobileMoneyWalletOptions {
 struct OtpBodyRequest: Codable {
     let customerMsisdn, hubtelPreApprovalId, clientReferenceId, otpCode: String?
 }
+
+struct GetOtpRequest: Codable {
+    let customerMsisdn: String?
+}
+
+struct VerifyMomoRequest: Codable {
+    let msisdn: String?
+    let otpCode: String?
+    let requestId: String?
+}
+
 
 struct OtpResponse: Codable {
     let customerMsisdn, verificationType, preapprovalStatus, clientReferenceID: String?
@@ -414,6 +425,10 @@ struct MomoResponse: Codable{
     let invoiceNumber: String?
     let email: String?
     
+}
+
+struct OtpResponseModel: Codable {
+    let requestId, otpPrefix, otpApprovalStatus: String?
 }
 
 enum CardStatus: String{
@@ -672,6 +687,7 @@ struct ChannelFetchResponse: Codable{
     let businessLogoUrl: String?
     let requireNationalID: Bool?
     let isHubtelInternalMerchant: Bool?
+    let requireMobileMoneyOTP: Bool?
     var merchantRequiresKyc: Bool {
         return requireNationalID ?? false
     }

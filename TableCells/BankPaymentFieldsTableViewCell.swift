@@ -287,7 +287,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
         saveCardForFutureUseLabel.isHidden = !value
         switcher.isHidden = !value
         buttonStack.isHidden = !value
-        accountNameTextField.isHidden = value
+        accountNameTextField.isHidden = true
         
         let buttonWidth = (UIScreen.main.bounds.width - 80)/2
         
@@ -498,6 +498,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
     }
     
     @objc func savedCardbuttonAction(_ sender: UIButton){
+        print("Using saved card tapped")
         if savedCardView.isHidden == true{
 
             savedCardView.isHidden = false
@@ -517,6 +518,7 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
     }
     
     @objc func useNewCardbuttonAction(_ sender: UIButton){
+        print("Using new card for payment")
         shouldBeginTyping()
         savedCardView.isHidden = true
         parentContainer.isHidden = false
