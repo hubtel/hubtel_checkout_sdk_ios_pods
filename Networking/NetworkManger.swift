@@ -94,6 +94,8 @@ class NetworkManager{
         case takeGhanaCardDetails(salesId: String, mobileNumber: String, idNumber: String)
         case addMobileMoneyWallet(salesId: String)
         case checkStatusPreApproval(salesID: String, transactionId: String)
+        case getOptp(salesID: String)
+        case verifyMomoOtp(salesID: String)
 
         
         var stringValue: String{
@@ -138,6 +140,11 @@ class NetworkManager{
                 return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/unifiedcheckout/addwallet"
             case let .checkStatusPreApproval(salesID, transactionId):
                 return "https://checkout.hubtel.com/api/v1/merchant/\(salesID)/unifiedcheckout/preapprovalconfirm/statuscheck/\(transactionId)"
+            case let .getOptp(salesId):
+                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/unifiedcheckout/payment-otp"
+            case let .verifyMomoOtp(salesID):
+                return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesID)/unifiedcheckout/verify-payment-otp"
+        
             }
         }
         
@@ -712,6 +719,75 @@ class NetworkManager{
     
     static func addMobileWalletToAccount(salesId: String, authKey: String, requestBody: AddMobileWalletBody?, completion: @escaping(Data?, MyError?)->()){
         guard let endpoint = EndPoints.addMobileMoneyWallet(salesId: salesId).url else{
+            completion(nil, .someThingHappened)
+            return
+        }
+        
+        dump(endpoint)
+        
+        guard let request = makeRequest(endpoint: endpoint, httpMethod: .POST, apiKey: authKey, body: requestBody) else {
+            completion(nil, .someThingHappened)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+               
+                guard error == nil else{
+                    completion(nil, .someThingHappened)
+                    return
+                }
+                
+                guard let data = data  else{
+                    completion(nil, .someThingHappened)
+                    return
+                }
+                
+                dump(String(data: data, encoding: .utf8))
+                completion(data, nil)
+            }
+            
+        }.resume()
+        
+    }
+    
+    
+    static func getOtp(salesID: String, authKey: String, requestBody: GetOtpRequest?, completion: @escaping(Data?, MyError?)->()){
+        guard let endpoint = EndPoints.getOptp(salesID: salesID).url else{
+            completion(nil, .someThingHappened)
+            return
+        }
+        
+        dump(endpoint)
+        
+        guard let request = makeRequest(endpoint: endpoint, httpMethod: .POST, apiKey: authKey, body: requestBody) else {
+            completion(nil, .someThingHappened)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+               
+                guard error == nil else{
+                    completion(nil, .someThingHappened)
+                    return
+                }
+                
+                guard let data = data  else{
+                    completion(nil, .someThingHappened)
+                    return
+                }
+                
+                dump(String(data: data, encoding: .utf8))
+                completion(data, nil)
+            }
+            
+        }.resume()
+        
+    }
+    
+    static func verifyMomoOtp(salesID: String, authKey: String, requestBody: VerifyMomoRequest?, completion: @escaping(Data?, MyError?)->()){
+        guard let endpoint = EndPoints.verifyMomoOtp(salesID: salesID).url else{
             completion(nil, .someThingHappened)
             return
         }

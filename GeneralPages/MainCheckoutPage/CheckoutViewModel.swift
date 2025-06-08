@@ -31,6 +31,8 @@ import UIKit
     @objc optional func handleOnlyCheckoutHeader()
     @objc optional func handleWalletsForInternalMerchants()
     @objc optional func  handleChannelsToUpdateView(channels: [String])
+    @objc optional func handleOtpRequest(requestId: String?, otpPrefix:String?, otpApprovalStatus: String?)
+    @objc optional func dismissLoaderForReceiveMoney()
 //    @objc optional func handleDirectDebitAction(transaction: MomoResponse?)
 }
 
@@ -79,6 +81,8 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         }
     }
     
+    var getOtpResponse: OtpResponseModel?
+    
     var momoNumber: String?
     
     var cardWhitelistCheckResponseObj: CardWhiteListResponse?
@@ -106,6 +110,8 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
     var feeAmount: Double = 0.00
     
     static var isHubtelMerchantEnabled: Bool = false
+    
+    var businessRequiresOtp: Bool = false
     
     init(delegate: ViewStatesDelegate, imageUpdater: ImageUpdatShowerUpdate = ImageUpdatShowerUpdate()){
         self.delegate = delegate
@@ -170,12 +176,16 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
             }
             let dataResponse = NetworkManager.decode(data: data, decodingType: ApiResponse<ChannelFetchResponse?>.self)
             
+            
             guard let response = dataResponse?.data else {
                 if showErrorMessage{
                     self.delegate?.showErrorToDismiss?(message: MyError.someThingHappened.message, dismiss: true)
                 }
                 return
             }
+            
+            
+            self.businessRequiresOtp = response.requireMobileMoneyOTP ?? false
             
             guard let channels = response.channels else{
                 self.delegate?.showErrorToDismiss?(message: MyError.someThingHappened.message, dismiss: true)
@@ -330,6 +340,22 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         self.delegate?.dismissLoaderToPerformMomoPayment?()
     }
     
+    func handleApiResponseForOtp(value: ApiResponse<OtpResponseModel?>?){
+        
+        guard let data = value else {
+            self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+            return
+        }
+        
+        dump(data, name: "Data is showing here")
+        guard let responseObject  = data.data else {
+            self.delegate?.showErrorMessagetToUser?(message: data.message ?? "")
+            return
+        }
+        self.getOtpResponse = responseObject
+        self.delegate?.handleOtpRequest?(requestId: responseObject.requestId, otpPrefix: responseObject.otpPrefix, otpApprovalStatus: responseObject.otpApprovalStatus)
+    }
+    
     
     
     func generateSetupRequest(with details: BankDetails?, useSavedCard: Bool = false)->SetupPayerAuthRequest?{
@@ -429,10 +455,42 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         
     }
     
+    func makeOtpRequest(request:GetOtpRequest, otpComplete: Bool = false){
+    
+        NetworkManager.getOtp(salesID: salesID ?? "", authKey: merchantApiKey ?? "", requestBody: request) { data, error in
+            guard error == nil else{
+                DispatchQueue.main.async {
+                    self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+                }
+                return
+            }
+            
+            guard let data = data  else {
+                DispatchQueue.main.async {
+                    self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+                }
+                return
+            }
+           
+            let decodedData = NetworkManager.decode(data: data, decodingType: ApiResponse<OtpResponseModel?>.self)
+           
+            DispatchQueue.main.async {
+                self.handleApiResponseForOtp(value: decodedData)
+            }
+            
+        }
+    }
     
     
     func paywithMomo(request:MobileMoneyPaymentRequest){
         delegate?.showLoadingStateWhileMakingNetworkRequest?(with: true)
+        
+        if self.businessRequiresOtp {
+            let otpRequest = GetOtpRequest(customerMsisdn: request.customerMsisdn);
+            self.makeOtpRequest(request: otpRequest)
+            return
+        }
+        
         NetworkManager.makeMobileMoneyPaymentsRequest(salesID: salesID ?? "", authKey: merchantApiKey ?? "", requestBody: request) { data, error in
             guard error == nil else{
                 DispatchQueue.main.async {
