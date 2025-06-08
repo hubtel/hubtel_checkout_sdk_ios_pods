@@ -482,7 +482,7 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
     }
     
     
-    func paywithMomo(request:MobileMoneyPaymentRequest,){
+    func paywithMomo(request:MobileMoneyPaymentRequest){
         delegate?.showLoadingStateWhileMakingNetworkRequest?(with: true)
         
         if self.businessRequiresOtp {

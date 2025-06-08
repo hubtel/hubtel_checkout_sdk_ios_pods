@@ -1373,7 +1373,7 @@ extension CheckoutViewController{
     func handleOtpRequest(requestId: String?, otpPrefix: String?, otpApprovalStatus: String?) {
             self.progress?.dismiss(animated: true) { [self] in
                 let preApprovalResponse = PreApprovalResponse(preapprovalStatus: otpApprovalStatus, verificationType: "momo", clientReference: self.viewModel.order?.clientReference, hubtelPreapprovalId: requestId, otpPrefix: otpPrefix, customerMsisdn: self.viewModel.order?.customerMsisDn, skipOtp: false, clientReferenceId: self.viewModel.order?.clientReference)
-                let controller = OtpScreenViewController(mobileNumber: self.viewModel.order?.customerMsisDn ?? "", preapprovalResponse: preApprovalResponse, )
+                let controller = OtpScreenViewController(mobileNumber: self.viewModel.order?.customerMsisDn ?? "", preapprovalResponse: preApprovalResponse)
                 controller.continueDelegate = self
                 self.navigationController?.pushViewController(controller, animated: true)
                 
