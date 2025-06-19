@@ -31,7 +31,7 @@ import UIKit
     @objc optional func handleOnlyCheckoutHeader()
     @objc optional func handleWalletsForInternalMerchants()
     @objc optional func  handleChannelsToUpdateView(channels: [String])
-    @objc optional func handleOtpRequest(requestId: String?, otpPrefix:String?, otpApprovalStatus: String?)
+    @objc optional func handleOtpRequest(requestId: String?, otpPrefix:String?, otpApprovalStatus: String?, customerMsisdn: String)
     @objc optional func dismissLoaderForReceiveMoney()
 //    @objc optional func handleDirectDebitAction(transaction: MomoResponse?)
 }
@@ -340,20 +340,20 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         self.delegate?.dismissLoaderToPerformMomoPayment?()
     }
     
-    func handleApiResponseForOtp(value: ApiResponse<OtpResponseModel?>?){
+    func handleApiResponseForOtp(value: ApiResponse<OtpResponseModel?>?, customerMsisdn: String){
         
         guard let data = value else {
             self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
             return
         }
         
-        dump(data, name: "Data is showing here")
+      
         guard let responseObject  = data.data else {
             self.delegate?.showErrorMessagetToUser?(message: data.message ?? "")
             return
         }
         self.getOtpResponse = responseObject
-        self.delegate?.handleOtpRequest?(requestId: responseObject.requestId, otpPrefix: responseObject.otpPrefix, otpApprovalStatus: responseObject.otpApprovalStatus)
+        self.delegate?.handleOtpRequest?(requestId: responseObject.requestId, otpPrefix: responseObject.otpPrefix, otpApprovalStatus: responseObject.otpApprovalStatus, customerMsisdn: customerMsisdn)
     }
     
     
@@ -475,7 +475,7 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
             let decodedData = NetworkManager.decode(data: data, decodingType: ApiResponse<OtpResponseModel?>.self)
            
             DispatchQueue.main.async {
-                self.handleApiResponseForOtp(value: decodedData)
+                self.handleApiResponseForOtp(value: decodedData, customerMsisdn: request.customerMsisdn ?? "")
             }
             
         }
