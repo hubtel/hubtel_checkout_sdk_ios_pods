@@ -249,7 +249,7 @@ public class CheckoutViewController: UIViewController {
                 bottomConstraint?.constant =  -keyboardFrame!.height
                 self.view.layoutIfNeeded()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.scrollToLastRow()
+//                    self.scrollToLastRow()
                 }
             }else{
                 bottomConstraint?.constant =  0
@@ -1303,6 +1303,7 @@ extension CheckoutViewController{
         }
     }
     
+    
     func payWithMomo() {
    
 //        let amount = self.viewModel.totalAmount.roundValue(toPlaces: 2)
@@ -1370,10 +1371,10 @@ extension CheckoutViewController{
         self.viewModel.checkUserVerificationStatus(mobileNumber: mobileNumber)
     }
     
-    func handleOtpRequest(requestId: String?, otpPrefix: String?, otpApprovalStatus: String?) {
+    func handleOtpRequest(requestId: String?, otpPrefix: String?, otpApprovalStatus: String?, customerMsisdn: String) {
             self.progress?.dismiss(animated: true) { [self] in
                 let preApprovalResponse = PreApprovalResponse(preapprovalStatus: otpApprovalStatus, verificationType: "momo", clientReference: self.viewModel.order?.clientReference, hubtelPreapprovalId: requestId, otpPrefix: otpPrefix, customerMsisdn: self.viewModel.order?.customerMsisDn, skipOtp: false, clientReferenceId: self.viewModel.order?.clientReference)
-                let controller = OtpScreenViewController(mobileNumber: self.viewModel.order?.customerMsisDn ?? "", preapprovalResponse: preApprovalResponse)
+                let controller = OtpScreenViewController(mobileNumber: customerMsisdn, preapprovalResponse: preApprovalResponse)
                 controller.continueDelegate = self
                 self.navigationController?.pushViewController(controller, animated: true)
                 
