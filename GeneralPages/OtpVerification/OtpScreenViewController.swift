@@ -30,6 +30,8 @@ class OtpScreenViewController: UIViewController {
     
     var clientReference: String?
     
+    var mobileNumber: String?
+    
 //    var delegate: PaymentFinishedDelegate?
     
     lazy var viewModel = OtpRequestViewModel(delegate: self)
@@ -77,12 +79,12 @@ class OtpScreenViewController: UIViewController {
         let otpString = "\(otpResponse?.otpPrefix ?? "")-\(self.otpString ?? "")"
         
         if otpResponse?.verificationType == "momo" {
-            let otpRequest = VerifyMomoRequest(msisdn: otpResponse?.customerMsisdn ?? "", otpCode: otpString, requestId: otpResponse?.hubtelPreapprovalId)
+            let otpRequest = VerifyMomoRequest(msisdn: mobileNumber, otpCode: otpString, requestId: otpResponse?.hubtelPreapprovalId)
             self.viewModel.makeMomoOtpRequest(body: otpRequest)
             return;
         }
         
-        let otpRequest = OtpBodyRequest(customerMsisdn: otpResponse?.customerMsisdn ?? "", hubtelPreApprovalId: otpResponse?.hubtelPreapprovalId, clientReferenceId: otpResponse?.clientReference ?? clientReference, otpCode: otpString)
+        let otpRequest = OtpBodyRequest(customerMsisdn: mobileNumber, hubtelPreApprovalId: otpResponse?.hubtelPreapprovalId, clientReferenceId: otpResponse?.clientReference ?? clientReference, otpCode: otpString)
         
         self.viewModel.makeotpVerification(body: otpRequest)
         
@@ -93,6 +95,7 @@ class OtpScreenViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.otpHeader.text = Strings.generateOtpPromptText(mobileNumber: mobileNumber, otpPrefix: preapprovalResponse?.otpPrefix ?? "")
         self.otpResponse = preapprovalResponse
+        self.mobileNumber = mobileNumber
         
         let hubtelLogoImage: UIImage?
         
