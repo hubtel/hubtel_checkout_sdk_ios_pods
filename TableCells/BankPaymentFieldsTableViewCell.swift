@@ -410,11 +410,8 @@ class BankPaymentFieldsTableViewCell: UITableViewCell {
     }
     
     func allInputsEmpty()->Bool{
-        print(self.isInternalHubtelMerchant)
-        if self.isInternalHubtelMerchant{
           return cvvTextField.getTextCount() == 0 || expiryDateTextField.getTextCount() == 0
-        }
-        return accountNameTextField.getTextCount() == 0 || cvvTextField.getTextCount() == 0 || expiryDateTextField.getTextCount() == 0 || accountNameTextField.getTextCount() == 0
+        
     }
     @objc func validateInput(_ textField: CustomTextField){
         var allowCvvType = true
