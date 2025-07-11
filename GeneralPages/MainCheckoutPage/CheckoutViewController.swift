@@ -956,7 +956,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
             let expiryTextField = self.view.viewWithTag(Tags.expiryDateTextFieldTag) as? CustomTextField
             let cvvTextField = self.view.viewWithTag(Tags.cvvTextFieldTag) as? CustomTextField
             
-            let allFieldsField = (bankNameField?.getTextCount() ?? 0) > 0 && (accountNumberTextFieldTag?.getTextCountWithoutSpacing() ?? 0) == 16 && (cvvTextField?.getTextCount() ?? 0) == 3 && (expiryTextField?.getTextCount() ?? 0) > 4
+            let allFieldsField = (accountNumberTextFieldTag?.getTextCountWithoutSpacing() ?? 0) == 16 && (cvvTextField?.getTextCount() ?? 0) == 3 && (expiryTextField?.getTextCount() ?? 0) > 4
             
             let allFieldsFieldInternal =  (accountNumberTextFieldTag?.getTextCountWithoutSpacing() ?? 0) == 16 && (cvvTextField?.getTextCount() ?? 0) == 3 && (expiryTextField?.getTextCount() ?? 0) > 4
             
