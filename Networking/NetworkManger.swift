@@ -498,7 +498,9 @@ class NetworkManager{
     
     //------------endpoint to get Fees------------------------------------------------------------
     static func getFeesNew(salesId: String, authKey: String, amount: Double, channel: String, completion: @escaping(Data?, MyError?)->()){
-        
+        print("Channel: \(channel)")
+        print("amount: \(amount)")
+        print("authKey: \(salesId)")
         guard let endPoint = EndPoints.getFeesNew(merchantId: salesId, channel: channel, amount: amount).url else{
             completion(nil, .someThingHappened)
             return

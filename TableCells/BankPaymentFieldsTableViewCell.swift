@@ -664,6 +664,7 @@ extension BankPaymentFieldsTableViewCell: UITextFieldDelegate{
     @objc optional func resizeCell()
     @objc optional func endTableEditing()
     func activateButton(validate: Bool)
+    func activateForMomo(validate: Bool)
 }
 
 

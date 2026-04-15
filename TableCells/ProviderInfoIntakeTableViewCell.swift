@@ -39,7 +39,6 @@ class ProviderInfoIntakeTableViewCell: UITableViewCell {
     lazy var mobileMoneyTextField: CustomTextField = {
         let textField = CustomTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter your mobile money number here"
         textField.attributedPlaceholder = NSAttributedString(string: Strings.mobileMoneyNumberTakerPlaceHolder , attributes: [NSAttributedString.Key.foregroundColor: Colors.appGreySecondary])
         textField.addTarget(self, action: #selector(validateInput(_:)), for: .editingChanged)
         textField.keyboardType = .numberPad
@@ -196,11 +195,11 @@ class ProviderInfoIntakeTableViewCell: UITableViewCell {
     
     
     @objc func validateInput(_ sender: UITextField){
-        validateDelegate?.activateButton(validate: sender.text!.count > 8)
+        validateDelegate?.activateForMomo(validate: sender.text!.count > 8)
     }
     
     @objc func shouldValidateInuput(_ sender: UITextField){
-        validateDelegate?.activateButton(validate: sender.text!.count > 8)
+        validateDelegate?.activateForMomo(validate: sender.text!.count > 8)
     }
     
     required init?(coder: NSCoder) {

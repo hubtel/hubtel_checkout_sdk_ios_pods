@@ -75,7 +75,6 @@ class ProviderSelectorView: UIView {
     }
     
     func getProviderString()->String{
-        print(providerLabel.text)
         return providerLabel.text?.lowercased() ?? ""
     }
     
