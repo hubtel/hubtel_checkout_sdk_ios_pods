@@ -59,7 +59,7 @@ class NewProviderSelector: UIViewController{
         table.translatesAutoresizingMaskIntoConstraints = false
         table.delegate = self
         table.dataSource = self
-        table.register(ProviderCell.self, forCellReuseIdentifier: "ProviderCell")
+        table.register(ProviderCellItem.self, forCellReuseIdentifier: "ProviderCell")
         table.separatorStyle = .singleLine
         table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.isScrollEnabled = false
@@ -173,7 +173,7 @@ extension NewProviderSelector: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProviderCell", for: indexPath) as! ProviderCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProviderCell", for: indexPath) as! ProviderCellItem
         let provider = providers[indexPath.row]
         cell.configure(with: provider.name, isSelected: indexPath.row == selectedIndex)
         return cell
@@ -192,7 +192,7 @@ extension NewProviderSelector: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - ProviderCell
-class ProviderCell: UITableViewCell {
+class ProviderCellItem: UITableViewCell {
 
     private lazy var providerLabel: UILabel = {
         let label = UILabel()
