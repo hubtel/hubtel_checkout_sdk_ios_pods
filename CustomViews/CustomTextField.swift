@@ -37,6 +37,7 @@ class CustomTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
         textColor = .black
+        autocorrectionType = .no
     }
     
     required init?(coder: NSCoder) {

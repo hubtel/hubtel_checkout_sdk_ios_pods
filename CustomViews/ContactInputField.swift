@@ -29,6 +29,7 @@ class ContactInputField: UIView {
         label.font = FontManager.getAppFont(size: .m4)
         label.textColor = .black
         label.isUserInteractionEnabled = true
+        label.autocorrectionType = .no
         label.tag = Tags.contactInputView
         return label
     }()

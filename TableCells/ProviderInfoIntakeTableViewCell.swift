@@ -43,6 +43,7 @@ class ProviderInfoIntakeTableViewCell: UITableViewCell {
         textField.addTarget(self, action: #selector(validateInput(_:)), for: .editingChanged)
         textField.keyboardType = .numberPad
         textField.tag = Tags.mobileMoneyTextFieldTag
+        textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(shouldValidateInuput(_:)), for: .editingDidBegin)
         return textField
     }()
