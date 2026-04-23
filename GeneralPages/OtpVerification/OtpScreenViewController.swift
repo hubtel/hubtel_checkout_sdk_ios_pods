@@ -275,9 +275,18 @@ extension OtpScreenViewController : OTPFieldViewDelegate, ButtonActionDelegate {
        self.otpString = otp
     }
     
+    func checkAndMakeOtpRequest(){
+        if ((otpString?.count ?? 0) < 4){
+            
+        }else{
+            self.handleOtpEnteredComplete()
+        }
+        
+    }
+    
     func hasEnteredAllOTP(hasEnteredAll: Bool) -> Bool {
         if hasEnteredAll {
-            self.handleOtpEnteredComplete()
+            checkAndMakeOtpRequest();
             
         }else{
             bottomButton.validate(false)
@@ -294,7 +303,7 @@ extension OtpScreenViewController : OTPFieldViewDelegate, ButtonActionDelegate {
 //        return   ""
 //    }
     func performAction() {
-        handleOtpEnteredComplete()
+        checkAndMakeOtpRequest();
     }
 
     

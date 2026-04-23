@@ -35,7 +35,6 @@ class OtpRequestViewModel: CheckoutRequirements{
     
     func handleOtpResponse(value: ApiResponse<OtpResponseModel?>?){
         
-        print(value)
         guard let data = value else {
             self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
             return
@@ -49,6 +48,10 @@ class OtpRequestViewModel: CheckoutRequirements{
             return
         }
         guard let responseObject  = data.data else {
+            if ((data.message?.lowercased() ?? "") == "bad request"){
+                self.delegate?.showErrorMessagetToUser?(message: MyError.someThingHappened.message)
+                return;
+            }
             self.delegate?.showErrorMessagetToUser?(message: data.message ?? "")
             return
         }
