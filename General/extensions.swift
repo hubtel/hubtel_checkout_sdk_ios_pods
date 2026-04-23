@@ -203,29 +203,6 @@ extension UIViewController{
 }
 
 
-extension CheckoutViewController: UIPickerViewDelegate, UIPickerViewDataSource{
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 10, height: 30))
-        label.text = PaymentOptions.providerOptions[row].providerName
-        label.text = Array(PaymentOptions.options.keys)[row]
-        label.sizeToFit()
-        return label
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Array(PaymentOptions.options.keys).count
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 50
-    }
-    
-    
-}
 
 
 extension UIButton {
@@ -306,7 +283,7 @@ extension String{
         case "tigo-gh":
             return "Airtel Tigo"
         default:
-            return ""
+            return "Select Payment Provider"
         }
     }
 }

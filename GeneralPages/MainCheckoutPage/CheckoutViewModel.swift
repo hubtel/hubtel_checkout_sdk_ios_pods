@@ -234,6 +234,7 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
     
     
     func handlePaymentChanelResponse(channels: [String])->(mobileMoneyAllowed: Bool, bankAllowed: Bool){
+        print("lololo")
         imageUpdater = ImageUpdatShowerUpdate(
             showMtn: channels.contains(where: {$0.hasPrefix("mtn")}),
             showAirtel: channels.contains(where: {$0.hasPrefix("tigo")}),
@@ -243,7 +244,12 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
         )
         
 //        PaymentOptions.options = PaymentOptions.convertArrayToDict(value:channels)
-        self.providerChannel = PaymentChannel.getChannel(string:Array(PaymentOptions.options.keys).count > 0 ? Array(PaymentOptions.options.keys)[0] : "").rawValue
+        if (isHubtelInternalMerchant){
+            self.providerChannel = PaymentChannel.getChannel(string:Array(PaymentOptions.options.keys).count > 0 ? Array(PaymentOptions.options.keys)[0] : "").rawValue
+        }else{
+            self.providerChannel = ""
+        }
+        
         
 //        UserDefaults.standard.set(PaymentOptions.convertArrayToDict(value:channels), forKey: "paymentChannels")
         

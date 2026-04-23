@@ -42,6 +42,8 @@ public class CheckoutViewController: UIViewController {
     var showMomoField: Bool = false
     var showOtherFieldsTab: Bool = false
     var showPayin4TableCell: Bool = false
+    var providerSelectedIndex: Int = 0
+    var activateButton = false
     
     static var callBack: (String)->() = {_ in}
     weak var delegate: PaymentFinishedDelegate?
@@ -849,14 +851,15 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
                 viewModel.makeGetFeesNewEndPoint(channel: PaymentChannel.getChannel(string: paymentProvider).rawValue, amount: viewModel.order?.amount ?? 0.00)
                 
                  let momoTextField = view.viewWithTag(Tags.mobileMoneyTextFieldTag) as? UITextField
+                
                
                     self.shouldActivateMomoFieldIfInputFilled = (momoTextField?.getTextCount() ?? 0) >= 9
                 
-                 UIView.animate(withDuration: 0.5) {
-                     if self.wallets == nil{
-                         momoTextField?.becomeFirstResponder()
-                     }
-                 }
+//                 UIView.animate(withDuration: 0.5) {
+//                     if self.wallets == nil{
+//                         momoTextField?.becomeFirstResponder()
+//                     }
+//                 }
             }
            
             
@@ -1016,6 +1019,13 @@ extension CheckoutViewController{
 }
 
 extension CheckoutViewController: BankCellDelegate{
+    func activateForMomo(validate: Bool) {
+        activateButton = validate
+        if (validate){
+            bottomButton.validate(viewModel.providerChannel.count > 0)
+        }
+    }
+    
     func activateButton(validate: Bool ) {
       
         bottomButton.validate(validate)
@@ -1174,7 +1184,7 @@ extension CheckoutViewController: ShowMenuItemsDelegate{
     }
     
     func updatePaymentDetails(contact: String, provider: String) {
-        print(provider)
+       
         if contact.isEmpty{
             self.paymentProvider = PaymentChannel.getChannel(string: provider).rawValue
             viewModel.makeGetFeesNewEndPoint(channel: PaymentChannel.getChannel(string: provider).rawValue, amount: viewModel.order?.amount ?? 0.00)
@@ -1189,50 +1199,14 @@ extension CheckoutViewController: ShowMenuItemsDelegate{
     
     
     func showPopOver() {
-      let vc = UIViewController()
-        vc.preferredContentSize = CGSize(width: alertWidth, height: alertHeight)
-        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: alertWidth, height: alertHeight))
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        pickerView.selectRow(0, inComponent: 0, animated: true)
-        vc.view.addSubview(pickerView)
-        pickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        pickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
-        let alert = UIAlertController(title: "Select a momo provider", message: "", preferredStyle: .actionSheet)
-        if let myView = view.viewWithTag(Tags.mobileMoneySectionCellTag){
-            alert.popoverPresentationController?.sourceView = myView
-            alert.popoverPresentationController?.sourceRect = myView.bounds
-            alert.setValue(vc, forKey: "contentViewController")
+        let providers = Array(PaymentOptions.options.keys).map { key in
+            (name: key, id: PaymentOptions.options[key] ?? "")
         }
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { action in
-            let selectedValue = pickerView.selectedRow(inComponent: 0)
-        
-          
-            let myView = self.view.viewWithTag(Tags.mobileMoneySectionCellTag) as? ProviderInfoIntakeTableViewCell
-            
-            myView?.setupProviderString(with:Array(PaymentOptions.options.keys)[selectedValue])
-            
-            print(PaymentOptions.options.keys)
-            
-            print(Array(PaymentOptions.options.keys)[selectedValue])
-            
-            self.paymentProvider = PaymentOptions.options[Array(PaymentOptions.options.keys)[selectedValue]] ?? ""
-            
-            print("\n\n\(PaymentChannel(rawValue: self.paymentProvider))")
-            
-            self.paymentChannel = PaymentChannel(rawValue: self.paymentProvider)
 
-            self.viewModel.makeGetFeesNewEndPoint(channel: PaymentChannel.getChannel(string: self.paymentProvider).rawValue, amount: self.order?.amount ?? 0.00)
-            print(self.paymentChannel)
-            print(self.paymentProvider)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            print("action")
-        }))
-        
-        self.present(alert, animated: true)
-        
+        let bottomSheet = NewProviderSelector(providers: providers, selectedIndex: providerSelectedIndex)
+        bottomSheet.delegate = self
+
+        self.present(bottomSheet, animated: true)
     }
    
     
@@ -1471,9 +1445,27 @@ extension CheckoutViewController: ContinueMomoDelegate{
     func continueWithMomo() {
         self.viewModel.businessRequiresOtp = false
         self.otpCompleted = true
-        
+
 //        self.payWithMomo()
     }
-    
-    
+
+
+}
+
+extension CheckoutViewController: MomoProviderSelectorDelegate {
+    func didSelectProvider(name: String, providerId: String, index: Int) {
+        let myView = self.view.viewWithTag(Tags.mobileMoneySectionCellTag) as? ProviderInfoIntakeTableViewCell
+
+        myView?.setupProviderString(with: name)
+
+        self.paymentProvider = providerId
+        self.paymentChannel = PaymentChannel(rawValue: self.paymentProvider)
+        self.viewModel.providerChannel = self.paymentChannel?.rawValue ?? ""
+        providerSelectedIndex = index
+        if (activateButton){
+            bottomButton.validate(true)
+        }
+
+        self.viewModel.makeGetFeesNewEndPoint(channel: PaymentChannel.getChannel(string: self.paymentProvider).rawValue, amount: self.order?.amount ?? 0.00)
+    }
 }

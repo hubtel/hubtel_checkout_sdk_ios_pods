@@ -50,6 +50,8 @@ class Strings{
     
     static let others = "Others"
     
+    static let otpVerificationFailed = "OTP verification failed"
+    
     static let hubtelWalletDescString = "Your balance on Hubtel will be debited immediately you confirm payment.\n\nNo authorization prompt will be sent to you"
     
     static let gmoneyDescString = "You will be required to enter your mandate ID to confirm your transaction"
