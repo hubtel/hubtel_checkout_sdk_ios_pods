@@ -819,9 +819,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource{
         let section = data2[indexPath.row]
         
         if indexPath.row == 2{
-            
-            print(paymentProvider)
-            print(PaymentChannel.getChannel(string: paymentProvider))
+           
             
             shadeCellSelected(tableView: tableView, indexPath: indexPath, isSelected: true)
             

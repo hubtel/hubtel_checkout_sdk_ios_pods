@@ -1,6 +1,6 @@
 //
 //  OtpScreenViewController.swift
-//  
+//
 //
 //  Created by Mark Amoah on 9/17/23.
 //
@@ -55,6 +55,19 @@ class OtpScreenViewController: UIViewController {
         return button
     }()
     
+//    lazy var resendOtpButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        let tealColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
+//        button.setTitle("Resend OTP", for: .normal)
+//        button.setTitleColor(tealColor, for: .normal)
+//        let regularFont = FontManager.getAppFont(size: .m4)
+//        let boldFont = UIFont(descriptor: regularFont.fontDescriptor.withSymbolicTraits(.traitBold) ?? regularFont.fontDescriptor, size: regularFont.pointSize)
+//        button.titleLabel?.font = boldFont
+//        button.addTarget(self, action: #selector(handleResendOtp), for: .touchUpInside)
+//        return button
+//    }()
+    
     lazy var pinView: OTPFieldView = {
         let otpTextFieldView = OTPFieldView(frame: .zero)
         otpTextFieldView.fieldsCount = 4
@@ -71,6 +84,12 @@ class OtpScreenViewController: UIViewController {
         otpTextFieldView.secureEntry = false
         otpTextFieldView.translatesAutoresizingMaskIntoConstraints = false
         return otpTextFieldView
+    }()
+    
+    let otpHintLabel: MyCustomLabel = {
+        let label = MyCustomLabel(text: "", font: FontManager.getAppFont(size: .m4))
+        label.numberOfLines = 0
+        return label
     }()
     
     func handleOtpEnteredComplete(){
@@ -110,6 +129,24 @@ class OtpScreenViewController: UIViewController {
         self.checkoutType = checkoutType
         self.clientReference = clientReference
         otpError.isHidden = true
+        
+        let hintText = "Didn't receive the code? Dial *713*90# to view it"
+        let attributedString = NSMutableAttributedString(string: hintText)
+        let boldTealRange = (hintText as NSString).range(of: "*713*90#")
+        attributedString.addAttributes([
+            .font: FontManager.getAppFont(size: .m4) as Any,
+            .foregroundColor: UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1) // teal
+        ], range: boldTealRange)
+        // Apply bold separately
+        let regularFont = FontManager.getAppFont(size: .m4)
+        let boldFont = UIFont(descriptor: regularFont.fontDescriptor.withSymbolicTraits(.traitBold) ?? regularFont.fontDescriptor, size: regularFont.pointSize)
+        attributedString.addAttribute(.font, value: boldFont, range: boldTealRange)
+        
+        otpHintLabel.attributedText = attributedString
+        
+        otpHintLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHintLabelTap))
+        otpHintLabel.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -122,7 +159,7 @@ class OtpScreenViewController: UIViewController {
         super.viewDidLoad()
         title = "Verify"
         subscribeToShowKeyboardNotifications()
-        self.view.addSubviews(hubtelIconImage, otpHeader, bottomButton, pinView, otpError)
+        self.view.addSubviews(hubtelIconImage, otpHeader, bottomButton, pinView, otpError, otpHintLabel)
         setupConstraints()
         pinView.initializeUI()
         view.backgroundColor = .white
@@ -145,11 +182,17 @@ class OtpScreenViewController: UIViewController {
             
         ]
         
-       buttonConstraint = bottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        buttonConstraint = bottomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+         
+         buttonConstraint.isActive = true
+         
+         NSLayoutConstraint.activate(buttonConstraints)
         
-        buttonConstraint.isActive = true
         
-        NSLayoutConstraint.activate(buttonConstraints)
+        
+       
+        
+       
         
         let otpHeaderConstraints = [
             hubtelIconImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
@@ -178,6 +221,13 @@ class OtpScreenViewController: UIViewController {
             otpError.topAnchor.constraint(equalTo: pinView.bottomAnchor, constant: 8),
         ]
         NSLayoutConstraint.activate(otpErrorViewConstraints)
+        
+        let otpHintConstraints = [
+            otpHintLabel.leadingAnchor.constraint(equalTo: pinView.leadingAnchor),
+            otpHintLabel.trailingAnchor.constraint(equalTo: pinView.trailingAnchor),
+            otpHintLabel.topAnchor.constraint(equalTo: otpError.bottomAnchor, constant: 6),
+        ]
+        NSLayoutConstraint.activate(otpHintConstraints)
         
     }
     
@@ -215,6 +265,21 @@ class OtpScreenViewController: UIViewController {
             
         
     }
+    
+    @objc func handleHintLabelTap() {
+        let ussdCode = "*713*90#"
+        guard let encoded = ussdCode.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: "tel://\(encoded)") else { return }
+
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    @objc func handleResendOtp() {
+        // TODO: Add resend OTP logic here
+    }
+    
     
 
     

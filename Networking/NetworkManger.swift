@@ -96,6 +96,7 @@ class NetworkManager{
         case checkStatusPreApproval(salesID: String, transactionId: String)
         case getOptp(salesID: String)
         case verifyMomoOtp(salesID: String)
+        case resendOTP(phoneNumber: String, code: String, requestId: String)
 
         
         var stringValue: String{
@@ -144,8 +145,10 @@ class NetworkManager{
                 return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesId)/unifiedcheckout/payment-otp"
             case let .verifyMomoOtp(salesID):
                 return "\(NetworkManager.promptBase)/api/v1/merchant/\(salesID)/unifiedcheckout/verify-payment-otp"
-        
+            case let .resendOTP(phoneNumber, code, requestId):
+                return "\(NetworkManager.promptBase)/api/v1/internal/InternalUnifiedCheckout/customers/resendOtp/\(phoneNumber)/\(code)/\(requestId)/"
             }
+    
         }
         
         var url: URL?{
@@ -656,9 +659,6 @@ class NetworkManager{
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             
-            print("response here: \(response)")
-            
-            print(error)
             
             DispatchQueue.main.async {
                

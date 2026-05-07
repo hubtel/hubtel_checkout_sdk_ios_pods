@@ -337,7 +337,6 @@ class CheckOutViewModel: CheckoutRequirements, PaymentProtocol{
             return
         }
         
-        dump(data, name: "Data is showing here")
         guard let responseObject  = data.data else {
             self.delegate?.showErrorMessagetToUser?(message: data.message ?? "")
             return

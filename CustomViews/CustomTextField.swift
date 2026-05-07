@@ -38,7 +38,10 @@ class CustomTextField: UITextField {
         super.init(frame: frame)
         textColor = .black
         autocorrectionType = .no
+        inputAccessoryView = UIView()
     }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -48,6 +51,8 @@ class CustomTextField: UITextField {
         backgroundColor = Colors.fieldColor
         layer.cornerRadius = 8
         font = FontManager.getAppFont(size: .m4)
+        autocorrectionType = .no
+        inputAccessoryView = UIView()
     }
    
 
