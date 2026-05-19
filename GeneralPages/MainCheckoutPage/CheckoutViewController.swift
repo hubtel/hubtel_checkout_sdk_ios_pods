@@ -440,7 +440,7 @@ extension CheckoutViewController: ViewStatesDelegate{
         progress?.dismiss(animated: true){ [self] in
             
             if paymentType == .zeepay || paymentType == .hubtel || paymentType == .gmoney{
-                CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: "", delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount)
+                CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: "", delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount, cancelDelegate: self)
                 return
             }
             
@@ -455,7 +455,7 @@ extension CheckoutViewController: ViewStatesDelegate{
             
             if CheckOutViewModel.checkoutType == .receivemoneyprompt{
                 self.showAlert(with: Strings.success, message: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? "")){ action in
-                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? ""),provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount)
+                    CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? ""),provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount, cancelDelegate: self)
                 }
               
             } else if CheckOutViewModel.checkoutType == .preapprovalconfirm{
@@ -464,7 +464,7 @@ extension CheckoutViewController: ViewStatesDelegate{
                     self.navigationController?.pushViewController(controller, animated: true)
                 }else{
                     if self.viewModel.preApprovalResponse?.preapprovalStatus?.lowercased() == "pending" || self.viewModel.preApprovalResponse?.preapprovalStatus == nil{
-                        CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? ""),provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount
+                        CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.setMomoPrompt(with: self.viewModel.momoNumber ?? ""),provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount, cancelDelegate: self
                         )
                     }else{
                         let controller = PreApprovalSuccessVcViewController(walletName: "mobile money wallet", amount: self.viewModel.totalAmount , delegate: self.delegate
@@ -495,7 +495,7 @@ extension CheckoutViewController: ViewStatesDelegate{
             }
             
             
-            CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount)
+            CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: self.paymentProvider, delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount, cancelDelegate: self)
 
         }
     }
@@ -1165,10 +1165,10 @@ extension CheckoutViewController: ButtonActionDelegate{
 //        self.present(controller, animated: true)
     }
     
-    func scrollToLastRow() {
-        let indexPath = NSIndexPath(row: data2.count - 1, section: 0)
-        self.tableView.scrollToRow(at: indexPath as IndexPath, at: .middle, animated: true)
-    }
+//    func scrollToLastRow() {
+//        let indexPath = NSIndexPath(row: data2.count - 1, section: 0)
+//        self.tableView.scrollToRow(at: indexPath as IndexPath, at: .middle, animated: true)
+//    }
     
 }
 
@@ -1440,6 +1440,10 @@ extension CheckoutViewController: PerformPayIn4Delegate{
 }
 
 extension CheckoutViewController: ContinueMomoDelegate{
+    func cancelBottomSheet() {
+        self.dismissVC()
+    }
+    
     func continueWithMomo() {
         self.viewModel.businessRequiresOtp = false
         self.otpCompleted = true

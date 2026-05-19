@@ -16,6 +16,7 @@ class CheckTransactionStatusViewController: UIViewController {
     var checkStatusCount: Int = 0
     var transactionStatusCheck: PaymentStatus?
     weak var delegate: PaymentFinishedDelegate?
+    var continueDelegate: ContinueMomoDelegate?
     var imageString: String?
     var provider: String?
     var transactionDetails: MomoResponse?
@@ -27,7 +28,7 @@ class CheckTransactionStatusViewController: UIViewController {
     
     lazy var viewModel = CheckoutTransactionStatusViewModel(delegate: self)
     
-    static func openTransactionHistory(navController: UINavigationController?, transactionId: String, text: String, provider: String? = nil, delegate: PaymentFinishedDelegate?, transactionDetails: MomoResponse? = nil, clientReference: String? = nil, amountPaid: Double? = nil, checkoutType: CheckoutType? = nil){
+    static func openTransactionHistory(navController: UINavigationController?, transactionId: String, text: String, provider: String? = nil, delegate: PaymentFinishedDelegate?, transactionDetails: MomoResponse? = nil, clientReference: String? = nil, amountPaid: Double? = nil, checkoutType: CheckoutType? = nil, cancelDelegate: ContinueMomoDelegate?){
         let controller = CheckTransactionStatusViewController()
         controller.transactionId = transactionId
         controller.setDescriptionLabelText(value: text)
@@ -36,6 +37,7 @@ class CheckTransactionStatusViewController: UIViewController {
         controller.transactionDetails = transactionDetails
         controller.clientReference = clientReference
         controller.amountPaid = amountPaid
+        controller.continueDelegate = cancelDelegate
         navController?.pushViewController(controller, animated: true)
     }
     
@@ -206,6 +208,11 @@ class CheckTransactionStatusViewController: UIViewController {
     @objc func cancelMomoOperation(){
         AnalyticsHelper.recordCheckoutEvent(event: .checkoutCheckStatusTapCancel)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        continueDelegate?.cancelBottomSheet()
+        super.viewDidDisappear(animated)
     }
 }
 

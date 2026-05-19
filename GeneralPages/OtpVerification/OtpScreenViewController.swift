@@ -9,6 +9,7 @@ import UIKit
 
 protocol ContinueMomoDelegate{
     func continueWithMomo();
+    func cancelBottomSheet();
 }
 
 class OtpScreenViewController: UIViewController {
@@ -324,6 +325,12 @@ extension OtpScreenViewController: ViewStatesDelegate{
             self.continueDelegate?.continueWithMomo()
         }
        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        continueDelegate?.cancelBottomSheet();
+        super.viewDidDisappear(animated)
+        
     }
     
 }

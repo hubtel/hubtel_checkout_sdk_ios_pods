@@ -21,6 +21,7 @@ enum WebViewStrings: String{
 
 public protocol PaymentFinishedDelegate: AnyObject{
     func checkStatus(value: PaymentStatus, transactionId: String)
+
 }
 
 
@@ -51,6 +52,7 @@ class CheckoutWebViewController: UIViewController {
     var authKey: String?
     var makeEnrollment: Bool = false
     weak var delegate: PaymentFinishedDelegate?
+    var cancelDelegate: ContinueMomoDelegate?
     let salesId: String? = UserSetupRequirements.shared.salesID
     var parentController: UIViewController?
     
@@ -207,7 +209,7 @@ extension CheckoutWebViewController: WKScriptMessageHandler, WKNavigationDelegat
         if onEventCalled && (message.body as? String) == WebViewStrings.transactionCompleted.rawValue{
             print(message)
             self.dismiss(animated: true){
-                CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate)
+                CheckTransactionStatusViewController.openTransactionHistory(navController: self.parentController?.navigationController, transactionId: self.setup3dsResponse?.clientReference ?? "", text: Strings.directDebitText,delegate: self.delegate, cancelDelegate: self.cancelDelegate)
             }
             return
         }
