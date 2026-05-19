@@ -294,7 +294,7 @@ extension OtpScreenViewController: ViewStatesDelegate{
         progress?.dismiss(animated: true){
             
             if self.checkoutType == .directdebit{
-                CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.clientReference ?? self.otpResponse?.clientReference ?? "", text: Strings.directDebitText, delegate: nil)
+                CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.clientReference ?? self.otpResponse?.clientReference ?? "", text: Strings.directDebitText, delegate: nil, cancelDelegate: self.continueDelegate)
                 return
             }
            

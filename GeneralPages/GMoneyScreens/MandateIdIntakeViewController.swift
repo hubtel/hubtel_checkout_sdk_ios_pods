@@ -174,7 +174,7 @@ extension MandateIdIntakeViewController: ViewStatesDelegate{
     func dismissLoaderToPerformMomoPayment() {
         progress?.dismiss(animated: true){
             MandateIdManager.shared.mandateId = self.idInputter.textField.text?.trimmingCharacters(in: .whitespaces)
-            CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: "g-money", delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount)
+            CheckTransactionStatusViewController.openTransactionHistory(navController: self.navigationController, transactionId: self.viewModel.momoResponse?.clientReference ?? "", text: Strings.directDebitText,provider: "g-money", delegate: self.delegate, transactionDetails: self.viewModel.momoResponse, clientReference: self.viewModel.order?.clientReference, amountPaid: self.viewModel.totalAmount, cancelDelegate: nil)
         }
     }
     
