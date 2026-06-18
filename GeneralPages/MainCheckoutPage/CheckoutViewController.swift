@@ -1440,8 +1440,12 @@ extension CheckoutViewController: PerformPayIn4Delegate{
 }
 
 extension CheckoutViewController: ContinueMomoDelegate{
-    func cancelBottomSheet() {
-        self.dismissVC()
+    
+    
+    func cancelBottomSheet(onPop: Bool?) {
+        if (onPop == true){
+            self.dismissVC();
+        }
     }
     
     func continueWithMomo() {

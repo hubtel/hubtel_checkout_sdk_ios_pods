@@ -211,7 +211,7 @@ class CheckTransactionStatusViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        continueDelegate?.cancelBottomSheet()
+        continueDelegate?.cancelBottomSheet(onPop: true)
         super.viewDidDisappear(animated)
     }
 }

@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         
         let configuration = HubtelCheckoutConfiguration(merchantId: "2029243", callbackUrl: "https://d6e5-154-160-20-114.ngrok-free.app/payment/callback", merchantApiKey: "eDkzRGtrcTplMjE0MDFiYmNiZGQ0MWJlYjI3MmZiMDFjMDI1ZGJiNw==")
         
-        let purchaseInfo = PurchaseInfo(amount: 1, customerPhoneNumber: "05562", purchaseDescription: "This is a desc", clientReference:UUID().uuidString)
+        let purchaseInfo = PurchaseInfo(amount: 1, customerPhoneNumber: "0556236739", purchaseDescription: "This is a desc", clientReference:UUID().uuidString)
         
         CheckoutViewController.presentCheckout(from: self, with: configuration, and: purchaseInfo, delegate: self, tintColor: UIColor.black)
     }

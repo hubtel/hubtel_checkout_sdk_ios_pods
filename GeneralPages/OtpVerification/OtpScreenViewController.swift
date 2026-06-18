@@ -9,7 +9,7 @@ import UIKit
 
 protocol ContinueMomoDelegate{
     func continueWithMomo();
-    func cancelBottomSheet();
+    func cancelBottomSheet(onPop: Bool?);
 }
 
 class OtpScreenViewController: UIViewController {
@@ -32,6 +32,7 @@ class OtpScreenViewController: UIViewController {
     var clientReference: String?
     
     var mobileNumber: String?
+    var popMainController: Bool? = true
     
 //    var delegate: PaymentFinishedDelegate?
     
@@ -320,6 +321,7 @@ extension OtpScreenViewController: ViewStatesDelegate{
     }
     
     func dismissLoaderForReceiveMoney() {
+        popMainController = false;
         progress?.dismiss(animated: true){
             self.navigationController?.popViewController(animated: true)
             self.continueDelegate?.continueWithMomo()
@@ -328,7 +330,7 @@ extension OtpScreenViewController: ViewStatesDelegate{
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        continueDelegate?.cancelBottomSheet();
+        continueDelegate?.cancelBottomSheet(onPop: popMainController);
         super.viewDidDisappear(animated)
         
     }
